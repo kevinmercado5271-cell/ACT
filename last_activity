@@ -1,18 +1,13 @@
 import tkinter as tk
-from tkinter import ttk, messagebox, filedialog
+from tkinter import ttk, messagebox, filedialog, simpledialog
 from pathlib import Path
 import sys
 import io
-
-# ---------------- MAIN WINDOW ---------------- #
 
 window = tk.Tk()
 window.title("Professional Python Editor")
 window.geometry("900x600")
 window.configure(bg="#2b2b2b")
-
-
-# ---------------- STYLE ---------------- #
 
 style = ttk.Style()
 style.theme_use("clam")
@@ -23,14 +18,10 @@ style.configure(
     foreground="#dcdcdc"
 )
 
-
-# ---------------- FUNCTIONS ---------------- #
-
 def newfile():
     text_editor.delete("1.0", tk.END)
     text_editor.insert(tk.END, "# Start typing your Python code here...\n")
     statusbar.config(text="New file created")
-
 
 def openfile():
     filename = filedialog.askopenfilename(
@@ -51,7 +42,6 @@ def openfile():
 
         statusbar.config(text=f"Opened: {Path(filename).name}")
 
-
 def savefile():
     filename = filedialog.asksaveasfilename(
         defaultextension=".txt",
@@ -70,13 +60,9 @@ def savefile():
         statusbar.config(text=f"Saved: {Path(filename).name}")
         messagebox.showinfo("Save", "File saved successfully!")
 
-
 def exitprogram():
     if messagebox.askokcancel("Exit", "Do you really want to quit?"):
         window.destroy()
-
-
-# ---------------- ACTIVITY 1 ---------------- #
 
 def load_activity_1():
     code = """name = 'Kevin Ray C Mercado'
@@ -96,25 +82,26 @@ print("SECTION: ", section)
 
     statusbar.config(text="Loaded Activity 1")
 
-
-# ---------------- ACTIVITY 2 ---------------- #
-
 def load_activity_2():
-    code = """cust_num = int(input("Enter your NUmber: "))
-cust_name = input("Enter your Name: ")
-product  = input("Enter Product Name: ")
-quantity = int(input("Enter Quantity: "))
-price = float(input("Enter Price: "))
+    code = """from tkinter import simpledialog
 
-total = quantity * price
+cust_num = simpledialog.askinteger("Input", "Enter your Number:")
+cust_name = simpledialog.askstring("Input", "Enter your Name:")
+product  = simpledialog.askstring("Input", "Enter Product Name:")
+quantity = simpledialog.askinteger("Input", "Enter Quantity:")
+price = simpledialog.askfloat("Input", "Enter Price:")
 
-print("\\n--- SALES SUMMARY ---")
-print("Number  :", cust_num)
-print("Name    :", cust_name)
-print("Product :", product)
-print("Quantity:", quantity)
-print("Price   :", price)
-print("Total   :", total)
+if all(v is not None for v in [cust_num, cust_name, product, quantity, price]):
+    total = quantity * price
+    print("\\n--- SALES SUMMARY ---")
+    print("Number  :", cust_num)
+    print("Name    :", cust_name)
+    print("Product :", product)
+    print("Quantity:", quantity)
+    print("Price   :", price)
+    print("Total   :", total)
+else:
+    print("Input cancelled.")
 """
 
     text_editor.delete("1.0", tk.END)
@@ -122,37 +109,39 @@ print("Total   :", total)
 
     statusbar.config(text="Loaded Activity 2")
 
-
-# ---------------- ACTIVITY 3 ---------------- #
-
 def load_activity_3():
-    code = """emp_num = int(input("Enter Employee Number: "))
-emp_name = input("Enter Employee Name: ")
-days_worked = int(input("Enter Days Worked: "))
-daily_rate = float(input("Enter Daily Rate: "))
+    code = """from tkinter import simpledialog
 
-sss = float(input("Enter SSS Deduction: "))
-philhealth = float(input("Enter PhilHealth Deduction: "))
-cash_advance = float(input("Enter Cash Advance: "))
+emp_num = simpledialog.askinteger("Input", "Enter Employee Number:")
+emp_name = simpledialog.askstring("Input", "Enter Employee Name:")
+days_worked = simpledialog.askinteger("Input", "Enter Days Worked:")
+daily_rate = simpledialog.askfloat("Input", "Enter Daily Rate:")
 
-gross_pay = days_worked * daily_rate
-total_deduction = sss + philhealth + cash_advance
-net_pay = gross_pay - total_deduction
+sss = simpledialog.askfloat("Input", "Enter SSS Deduction:")
+philhealth = simpledialog.askfloat("Input", "Enter PhilHealth Deduction:")
+cash_advance = simpledialog.askfloat("Input", "Enter Cash Advance:")
 
-print("\\n--- PAYROLL SUMMARY ---")
-print("Employee Number :", emp_num)
-print("Employee Name   :", emp_name)
-print("Days Worked     :", days_worked)
-print("Daily Rate      :", daily_rate)
-print("Gross Pay       :", gross_pay)
+if all(v is not None for v in [emp_num, emp_name, days_worked, daily_rate, sss, philhealth, cash_advance]):
+    gross_pay = days_worked * daily_rate
+    total_deduction = sss + philhealth + cash_advance
+    net_pay = gross_pay - total_deduction
 
-print("\\n--- DEDUCTIONS ---")
-print("SSS             :", sss)
-print("PhilHealth      :", philhealth)
-print("Cash Advance    :", cash_advance)
-print("Total Deduction :", total_deduction)
+    print("\\n--- PAYROLL SUMMARY ---")
+    print("Employee Number :", emp_num)
+    print("Employee Name   :", emp_name)
+    print("Days Worked     :", days_worked)
+    print("Daily Rate      :", daily_rate)
+    print("Gross Pay       :", gross_pay)
 
-print("\\nNet Pay         :", net_pay)
+    print("\\n--- DEDUCTIONS ---")
+    print("SSS             :", sss)
+    print("PhilHealth      :", philhealth)
+    print("Cash Advance    :", cash_advance)
+    print("Total Deduction :", total_deduction)
+
+    print("\\nNet Pay         :", net_pay)
+else:
+    print("Input cancelled.")
 """
 
     text_editor.delete("1.0", tk.END)
@@ -160,46 +149,44 @@ print("\\nNet Pay         :", net_pay)
 
     statusbar.config(text="Loaded Activity 3")
 
-
-# ---------------- ACTIVITY 4 ---------------- #
-
 def load_activity_4():
-    code = """student_id = input("Enter Student ID: ")
-student_name = input("Enter Student Name: ")
-section = input("Enter Section: ")
-subject = input("Enter Subject: ")
+    code = """from tkinter import simpledialog
 
-prelim = float(input("Enter Prelim Grade: "))
-midterm = float(input("Enter Midterm Grade: "))
-finals = float(input("Enter Final Grade: "))
+student_id = simpledialog.askstring("Input", "Enter Student ID:")
+student_name = simpledialog.askstring("Input", "Enter Student Name:")
+section = simpledialog.askstring("Input", "Enter Section:")
+subject = simpledialog.askstring("Input", "Enter Subject:")
 
-average = ((prelim * 0.2) + (midterm * 0.3) + (finals * 0.5))
-print(average)
+prelim = simpledialog.askfloat("Input", "Enter Prelim Grade:")
+midterm = simpledialog.askfloat("Input", "Enter Midterm Grade:")
+finals = simpledialog.askfloat("Input", "Enter Final Grade:")
 
-if average >= 75:
-    remarks = "PASSED"
+if all(v is not None for v in [student_id, student_name, prelim, midterm, finals]):
+    average = ((prelim * 0.2) + (midterm * 0.3) + (finals * 0.5))
+
+    if average >= 75:
+        remarks = "PASSED"
+    else:
+        remarks = "FAILED"
+
+    print("\\n--- STUDENT GRADE SUMMARY ---")
+    print("Student ID     :", student_id)
+    print("Student Name   :", student_name)
+    print("Section         :", section)
+    print("Subject         :", subject)
+    print("Prelim Grade   :", prelim)
+    print("Midterm Grade  :", midterm)
+    print("Final Grade    :", finals)
+    print("Average Grade  :", round(average, 2))
+    print("Remarks         :", remarks)
 else:
-    remarks = "FAILED"
-
-print("\\n--- STUDENT GRADE SUMMARY ---")
-print("Student ID     :", student_id)
-print("Student Name   :", student_name)
-print("Section         :", section)
-print("Subject         :", subject)
-print("Prelim Grade   :", prelim)
-print("Midterm Grade  :", midterm)
-print("Final Grade    :", finals)
-print("Average Grade  :", round(average, 2))
-print("Remarks         :", remarks)
+    print("Input cancelled.")
 """
 
     text_editor.delete("1.0", tk.END)
     text_editor.insert(tk.END, code)
 
     statusbar.config(text="Loaded Activity 4")
-
-
-# ---------------- ACTIVITY 5 ---------------- #
 
 def load_activity_5():
     code = """import tkinter as tk
@@ -297,16 +284,12 @@ root.mainloop()
 
     statusbar.config(text="Loaded Activity 5")
 
-
-# ---------------- ACTIVITY 6 ---------------- #
-
 def load_activity_6():
     code = '''import tkinter as tk
 from tkinter import ttk, messagebox
 import sqlite3
 import os
 
-# ================= DATABASE =================
 class DatabaseManager:
     def __init__(self, db_name="system.db"):
         self.db_name = db_name
@@ -615,24 +598,17 @@ login_root.mainloop()
 
     statusbar.config(text="Loaded Activity 6")
 
-
-# ---------------- ACTIVITY 7 ---------------- #
-
 def load_activity_7():
     code = '''import tkinter as tk
 from tkinter import ttk, messagebox
 
-
-# ================= GLOBAL SELECTED ITEM =================
 selected_item = None
-
 
 def select_item(event):
     global selected_item
     selected = tree.selection()
     if selected:
         selected_item = selected[0]
-
 
 def compute_payroll():
     global selected_item
@@ -667,7 +643,6 @@ def compute_payroll():
             f"{net_pay:,.2f}"
         )
 
-        # ADD or UPDATE
         if selected_item:
             tree.item(selected_item, values=values)
         else:
@@ -675,7 +650,6 @@ def compute_payroll():
 
     except ValueError:
         messagebox.showerror("Format Error", "Please enter valid numbers.")
-
 
 def clear_fields():
     global selected_item
@@ -693,7 +667,6 @@ def clear_fields():
 
     selected_item = None
 
-
 def delete_selected():
     global selected_item
 
@@ -708,14 +681,10 @@ def delete_selected():
         tree.delete(selected_item)
         selected_item = None
 
-
-# ================= MAIN WINDOW =================
 root = tk.Tk()
 root.title("Advanced Payroll System with Dataset")
 root.geometry("950x600")
 
-
-# ================= INPUT FRAME =================
 input_frame = tk.LabelFrame(root, text="Employee Information", padx=10, pady=10)
 input_frame.pack(fill="x", padx=10, pady=5)
 
@@ -727,19 +696,15 @@ tk.Label(input_frame, text="Name:").grid(row=0, column=2)
 entry_name = tk.Entry(input_frame)
 entry_name.grid(row=0, column=3)
 
-# Gender
 gender_var = tk.StringVar(value="Male")
 tk.Radiobutton(input_frame, text="Male", variable=gender_var, value="Male").grid(row=1, column=1, sticky="w")
 tk.Radiobutton(input_frame, text="Female", variable=gender_var, value="Female").grid(row=1, column=2, sticky="w")
 
-# Position
 tk.Label(input_frame, text="Position:").grid(row=1, column=3)
 combo_pos = ttk.Combobox(input_frame, values=["Manager", "Staff", "Developer", "HR"])
 combo_pos.set("Staff")
 combo_pos.grid(row=1, column=4)
 
-
-# ================= CALC FRAME =================
 calc_frame = tk.Frame(root)
 calc_frame.pack(fill="x", padx=10)
 
@@ -763,16 +728,12 @@ tk.Label(calc_frame, text="Cash Advance:").grid(row=2, column=2)
 entry_ca = tk.Entry(calc_frame)
 entry_ca.grid(row=2, column=3)
 
-
-# ================= BUTTONS =================
 btn_frame = tk.Frame(root, pady=10)
 btn_frame.pack()
 
-# CHANGED ONLY TEXT: Calculate & Record → ADD
 tk.Button(btn_frame, text="Add", command=compute_payroll,
           bg="green", fg="white").pack(side="left", padx=5)
 
-# SAME FUNCTION USED FOR UPDATE (based on selection)
 tk.Button(btn_frame, text="Update", command=compute_payroll,
           bg="blue", fg="white").pack(side="left", padx=5)
 
@@ -784,8 +745,6 @@ tk.Button(btn_frame, text="Delete Selected", command=delete_selected,
 tk.Button(btn_frame, text="Exit", command=root.quit,
           bg="red", fg="white").pack(side="left", padx=5)
 
-
-# ================= TABLE =================
 tree_frame = tk.Frame(root)
 tree_frame.pack(fill="both", expand=True, padx=10, pady=10)
 
@@ -807,7 +766,6 @@ scroll.pack(side="right", fill="y")
 
 tree.configure(yscrollcommand=scroll.set)
 
-# bind selection
 tree.bind("<ButtonRelease-1>", select_item)
 
 root.mainloop()
@@ -818,8 +776,283 @@ root.mainloop()
 
     statusbar.config(text="Loaded Activity 7")
 
+def load_activity_8():
+    code = '''import tkinter as tk
+from tkinter import ttk, messagebox
 
-# ---------------- INFO ---------------- #
+selected_item = None
+
+def on_row_select(event):
+    global selected_item
+    selected = tree.selection()
+    if not selected:
+        return
+
+    selected_item = selected[0]
+    values = tree.item(selected_item, "values")
+
+    entry_id.delete(0, tk.END)
+    entry_id.insert(0, values[0])
+
+    entry_name.delete(0, tk.END)
+    entry_name.insert(0, values[1])
+
+    combo_course.set(values[2])
+
+    entry_subject.delete(0, tk.END)
+    entry_subject.insert(0, values[3])
+
+    entry_prelim.delete(0, tk.END)
+    entry_prelim.insert(0, values[4])
+
+    entry_midterm.delete(0, tk.END)
+    entry_midterm.insert(0, values[5])
+
+    entry_final.delete(0, tk.END)
+    entry_final.insert(0, values[6])
+
+def compute_grade():
+    try:
+        stud_id = entry_id.get()
+        name = entry_name.get()
+        course = combo_course.get()
+        subject = entry_subject.get()
+
+        prelim = float(entry_prelim.get())
+        midterm = float(entry_midterm.get())
+        final = float(entry_final.get())
+
+        if not (0 <= prelim <= 100 and 0 <= midterm <= 100 and 0 <= final <= 100):
+            messagebox.showerror("Error", "Grades must be between 0 and 100")
+            return
+
+        average = round(((prelim * 0.20) + (midterm * 0.30) + (final * 0.50)), 2)
+
+        if average >= 97:
+            numerical = "1.00"; remark = "Excellent"
+        elif average >= 94:
+            numerical = "1.25"; remark = "Very Good"
+        elif average >= 91:
+            numerical = "1.50"; remark = "Very Good"
+        elif average >= 88:
+            numerical = "1.75"; remark = "Good"
+        elif average >= 85:
+            numerical = "2.00"; remark = "Above Average"
+        elif average >= 82:
+            numerical = "2.25"; remark = "Above Average"
+        elif average >= 79:
+            numerical = "2.50"; remark = "Average"
+        elif average >= 76:
+            numerical = "2.75"; remark = "Average"
+        elif average >= 75:
+            numerical = "3.00"; remark = "Passing"
+        elif average >= 72:
+            numerical = "3.25"; remark = "Conditional"
+        elif average >= 69:
+            numerical = "3.50"; remark = "Conditional"
+        elif average >= 66:
+            numerical = "3.75"; remark = "Failed"
+        elif average >= 65:
+            numerical = "4.00"; remark = "Failed"
+        else:
+            numerical = "5.00"; remark = "Failed"
+
+        tree.insert("", "end", values=(
+            stud_id, name, course, subject,
+            prelim, midterm, final,
+            f"{average:.2f}", numerical, remark
+        ))
+
+        avg_result.config(text=f"{average:.2f}")
+        num_result.config(text=numerical)
+        remark_result.config(text=remark)
+
+    except ValueError:
+        messagebox.showerror("Error", "Please enter valid numbers")
+
+def update_record():
+    global selected_item
+    if not selected_item:
+        messagebox.showwarning("Warning", "Please select a record to update.")
+        return
+
+    try:
+        stud_id = entry_id.get()
+        name = entry_name.get()
+        course = combo_course.get()
+        subject = entry_subject.get()
+
+        prelim = float(entry_prelim.get())
+        midterm = float(entry_midterm.get())
+        final = float(entry_final.get())
+
+        if not (0 <= prelim <= 100 and 0 <= midterm <= 100 and 0 <= final <= 100):
+            messagebox.showerror("Error", "Grades must be between 0 and 100")
+            return
+
+        average = round(((prelim * 0.20) + (midterm * 0.30) + (final * 0.50)), 2)
+
+        if average >= 97:
+            numerical = "1.00"; remark = "Excellent"
+        elif average >= 94:
+            numerical = "1.25"; remark = "Very Good"
+        elif average >= 91:
+            numerical = "1.50"; remark = "Very Good"
+        elif average >= 88:
+            numerical = "1.75"; remark = "Good"
+        elif average >= 85:
+            numerical = "2.00"; remark = "Above Average"
+        elif average >= 82:
+            numerical = "2.25"; remark = "Above Average"
+        elif average >= 79:
+            numerical = "2.50"; remark = "Average"
+        elif average >= 76:
+            numerical = "2.75"; remark = "Average"
+        elif average >= 75:
+            numerical = "3.00"; remark = "Passing"
+        elif average >= 72:
+            numerical = "3.25"; remark = "Conditional"
+        elif average >= 69:
+            numerical = "3.50"; remark = "Conditional"
+        elif average >= 66:
+            numerical = "3.75"; remark = "Failed"
+        elif average >= 65:
+            numerical = "4.00"; remark = "Failed"
+        else:
+            numerical = "5.00"; remark = "Failed"
+
+        tree.item(selected_item, values=(
+            stud_id, name, course, subject,
+            prelim, midterm, final,
+            f"{average:.2f}", numerical, remark
+        ))
+
+        messagebox.showinfo("Success", "Record updated successfully!")
+
+        selected_item = None
+        tree.selection_remove(tree.selection())
+
+    except ValueError:
+        messagebox.showerror("Error", "Please enter valid numbers")
+
+def clear_fields():
+    global selected_item
+    entry_id.delete(0, tk.END)
+    entry_name.delete(0, tk.END)
+    entry_subject.delete(0, tk.END)
+    entry_prelim.delete(0, tk.END)
+    entry_midterm.delete(0, tk.END)
+    entry_final.delete(0, tk.END)
+    combo_course.set("")
+    selected_item = None
+    tree.selection_remove(tree.selection())
+
+def delete_record():
+    selected = tree.selection()
+    if not selected:
+        messagebox.showwarning("Warning", "Please select a record to delete.")
+        return
+
+    confirm = messagebox.askyesno("Delete Record", "Are you sure?")
+    if confirm:
+        tree.delete(selected[0])
+
+root = tk.Tk()
+root.title("Student Grading System")
+root.geometry("900x650")
+root.configure(bg="#DDEBF7")
+
+title = tk.Label(root, text="STUDENT GRADING SYSTEM",
+                 font=("Arial", 18, "bold"),
+                 bg="#DDEBF7",
+                 fg="#1a3d7c")
+title.pack(pady=10)
+
+frame_info = tk.LabelFrame(root, text="Student Information", bg="#E6F2FF")
+frame_info.pack(fill="x", padx=20, pady=5)
+
+tk.Label(frame_info, text="Student ID:", bg="#E6F2FF").grid(row=0, column=0)
+entry_id = ttk.Entry(frame_info)
+entry_id.grid(row=0, column=1)
+
+tk.Label(frame_info, text="Name:", bg="#E6F2FF").grid(row=1, column=0)
+entry_name = ttk.Entry(frame_info)
+entry_name.grid(row=1, column=1)
+
+tk.Label(frame_info, text="Course:", bg="#E6F2FF").grid(row=2, column=0)
+combo_course = ttk.Combobox(frame_info, values=["BSIT","BSCS","BSBA","BSED","BSCE","BSME","BSEE","BSCpE"], state="readonly")
+combo_course.grid(row=2, column=1)
+
+tk.Label(frame_info, text="Subject:", bg="#E6F2FF").grid(row=3, column=0)
+entry_subject = ttk.Entry(frame_info)
+entry_subject.grid(row=3, column=1)
+
+frame_grades = tk.LabelFrame(root, text="Grades Input", bg="#E6F2FF")
+frame_grades.pack(fill="x", padx=20, pady=10)
+
+tk.Label(frame_grades, text="Prelim:", bg="#E6F2FF").grid(row=0, column=0)
+tk.Label(frame_grades, text="Midterm:", bg="#E6F2FF").grid(row=0, column=2)
+tk.Label(frame_grades, text="Final:", bg="#E6F2FF").grid(row=0, column=4)
+
+entry_prelim = ttk.Entry(frame_grades, width=10)
+entry_midterm = ttk.Entry(frame_grades, width=10)
+entry_final = ttk.Entry(frame_grades, width=10)
+
+entry_prelim.grid(row=0, column=1)
+entry_midterm.grid(row=0, column=3)
+entry_final.grid(row=0, column=5)
+
+btn_frame = tk.Frame(root, bg="#DDEBF7")
+btn_frame.pack(pady=10)
+
+tk.Button(btn_frame, text="Compute", bg="#2c7be5", fg="white",
+          command=compute_grade).grid(row=0, column=0, padx=5)
+
+tk.Button(btn_frame, text="Update", bg="#28a745", fg="white",
+          command=update_record).grid(row=0, column=1, padx=5)
+
+tk.Button(btn_frame, text="Clear", bg="#dc3545", fg="white",
+          command=clear_fields).grid(row=0, column=2, padx=5)
+
+tk.Button(btn_frame, text="Delete", bg="#ff8800", fg="white",
+          command=delete_record).grid(row=0, column=3, padx=5)
+
+frame_result = tk.LabelFrame(root, text="Result", bg="#E6F2FF")
+frame_result.pack(fill="x", padx=20, pady=10)
+
+avg_result = tk.Label(frame_result, bg="#E6F2FF")
+num_result = tk.Label(frame_result, bg="#E6F2FF")
+remark_result = tk.Label(frame_result, bg="#E6F2FF")
+
+tk.Label(frame_result, text="Average:", bg="#E6F2FF").grid(row=0, column=0)
+tk.Label(frame_result, text="Numerical:", bg="#E6F2FF").grid(row=1, column=0)
+tk.Label(frame_result, text="Remark:", bg="#E6F2FF").grid(row=2, column=0)
+
+avg_result.grid(row=0, column=1)
+num_result.grid(row=1, column=1)
+remark_result.grid(row=2, column=1)
+
+frame_table = tk.LabelFrame(root, text="Records", bg="#E6F2FF")
+frame_table.pack(fill="both", expand=True, padx=20, pady=10)
+
+columns = ("ID","Name","Course","Subject","Prelim","Midterm","Final","Average","Num","Remark")
+
+tree = ttk.Treeview(frame_table, columns=columns, show="headings")
+
+for col in columns:
+    tree.heading(col, text=col)
+    tree.column(col, width=90)
+
+tree.pack(fill="both", expand=True)
+tree.bind("<<TreeviewSelect>>", on_row_select)
+
+root.mainloop()
+'''
+
+    text_editor.delete("1.0", tk.END)
+    text_editor.insert(tk.END, code)
+
+    statusbar.config(text="Loaded Activity 8")
 
 def personal_info():
     info = """
@@ -838,7 +1071,6 @@ Skills:
     messagebox.showinfo("Personal Info", info)
     statusbar.config(text="Opened Personal Info")
 
-
 def about_us():
     about = """
 Professional Python Editor (Tkinter)
@@ -854,9 +1086,6 @@ Educational project.
 """
     messagebox.showinfo("About Us", about)
     statusbar.config(text="Opened About Us")
-
-
-# ---------------- RUN CODE ---------------- #
 
 def run_code():
     code = text_editor.get("1.0", tk.END)
@@ -880,9 +1109,6 @@ def run_code():
     show_output(output_buffer.getvalue())
     statusbar.config(text="Code executed")
 
-
-# ---------------- OUTPUT ---------------- #
-
 def show_output(text):
     output_frame.pack(side=tk.BOTTOM, fill=tk.X)
 
@@ -891,12 +1117,8 @@ def show_output(text):
     output_text.insert(tk.END, text if text else "No output")
     output_text.config(state=tk.DISABLED)
 
-
 def hide_output():
     output_frame.pack_forget()
-
-
-# ---------------- EDITOR ---------------- #
 
 editor_frame = tk.Frame(window, bg="#2b2b2b")
 editor_frame.pack(fill=tk.BOTH, expand=True)
@@ -923,9 +1145,6 @@ scroll_x.grid(row=1, column=0, sticky="ew")
 
 editor_frame.rowconfigure(0, weight=1)
 editor_frame.columnconfigure(0, weight=1)
-
-
-# ---------------- OUTPUT PANEL ---------------- #
 
 output_frame = tk.Frame(window, bg="#111111", height=120)
 
@@ -954,9 +1173,6 @@ output_text = tk.Text(
 output_text.pack(fill=tk.BOTH, expand=True)
 output_text.config(state=tk.DISABLED)
 
-
-# ---------------- MENU ---------------- #
-
 menubar = tk.Menu(window)
 
 filemenu = tk.Menu(menubar, tearoff=0)
@@ -972,7 +1188,8 @@ filemenu.add_command(label="Activity 3", command=load_activity_3)
 filemenu.add_command(label="Activity 4", command=load_activity_4)
 filemenu.add_command(label="Activity 5", command=load_activity_5)
 filemenu.add_command(label="Activity 6", command=load_activity_6)
-filemenu.add_command(label="Activity 7", command=load_activity_7) # ADDED ACTIVITY 7
+filemenu.add_command(label="Activity 7", command=load_activity_7)
+filemenu.add_command(label="Activity 8", command=load_activity_8)
 
 filemenu.add_separator()
 
@@ -991,9 +1208,6 @@ menubar.add_cascade(label="Help", menu=helpmenu)
 
 window.config(menu=menubar)
 
-
-# ---------------- STATUS BAR ---------------- #
-
 statusbar = ttk.Label(
     window,
     text="Ready",
@@ -1002,16 +1216,10 @@ statusbar = ttk.Label(
 )
 statusbar.pack(side=tk.BOTTOM, fill=tk.X)
 
-
-# ---------------- SHORTCUTS ---------------- #
-
 window.bind("<Control-n>", lambda e: newfile())
 window.bind("<Control-o>", lambda e: openfile())
 window.bind("<Control-s>", lambda e: savefile())
 window.bind("<Control-q>", lambda e: exitprogram())
 window.bind("<F5>", lambda e: run_code())
-
-
-# ---------------- START ---------------- #
 
 window.mainloop()
