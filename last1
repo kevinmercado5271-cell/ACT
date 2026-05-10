@@ -1,0 +1,394 @@
+import tkinter as tk
+from tkinter import ttk, messagebox, filedialog
+from pathlib import Path
+import sys
+import io
+
+# ---------------- MAIN WINDOW ---------------- #
+
+window = tk.Tk()
+window.title("Professional Python Editor")
+window.geometry("900x600")
+window.configure(bg="#2b2b2b")
+
+
+# ---------------- STYLE ---------------- #
+
+style = ttk.Style()
+style.theme_use("clam")
+
+style.configure(
+    "TLabel",
+    background="#2b2b2b",
+    foreground="#dcdcdc"
+)
+
+
+# ---------------- FUNCTIONS ---------------- #
+
+def newfile():
+    text_editor.delete("1.0", tk.END)
+    text_editor.insert(tk.END, "# Start typing your Python code here...\n")
+    statusbar.config(text="New file created")
+
+
+def openfile():
+    filename = filedialog.askopenfilename(
+        title="Open File",
+        filetypes=[
+            ("Python Files", "*.py"),
+            ("Text Files", "*.txt"),
+            ("All Files", "*.*")
+        ]
+    )
+
+    if filename:
+        with open(filename, "r", encoding="utf-8") as f:
+            content = f.read()
+
+        text_editor.delete("1.0", tk.END)
+        text_editor.insert(tk.END, content)
+
+        statusbar.config(text=f"Opened: {Path(filename).name}")
+
+
+def savefile():
+    filename = filedialog.asksaveasfilename(
+        defaultextension=".txt",
+        filetypes=[
+            ("Text Files", "*.txt"),
+            ("Python Files", "*.py"),
+            ("All Files", "*.*")
+        ],
+        title="Save File"
+    )
+
+    if filename:
+        with open(filename, "w", encoding="utf-8") as f:
+            f.write(text_editor.get("1.0", tk.END))
+
+        statusbar.config(text=f"Saved: {Path(filename).name}")
+        messagebox.showinfo("Save", "File saved successfully!")
+
+
+def exitprogram():
+    if messagebox.askokcancel("Exit", "Do you really want to quit?"):
+        window.destroy()
+
+
+# ---------------- ACTIVITY 1 ---------------- #
+
+def load_activity_1():
+    code = """name = 'Kevin Ray C Mercado'
+id_ = "2025302302"
+age = "18"
+section = 'IT1R11'
+
+print("------- STUDENT INFORMATION --------- ")
+print("Name:    ", name)
+print("ID:      ", id_)
+print("AGE:     ", age)
+print("SECTION: ", section)
+"""
+
+    text_editor.delete("1.0", tk.END)
+    text_editor.insert(tk.END, code)
+
+    statusbar.config(text="Loaded Activity 1")
+
+
+# ---------------- ACTIVITY 2 ---------------- #
+
+def load_activity_2():
+    code = """cust_num = int(input("Enter your NUmber: "))
+cust_name = input("Enter your Name: ")
+product  = input("Enter Product Name: ")
+quantity = int(input("Enter Quantity: "))
+price = float(input("Enter Price: "))
+
+total = quantity * price
+
+print("\\n--- SALES SUMMARY ---")
+print("Number  :", cust_num)
+print("Name    :", cust_name)
+print("Product :", product)
+print("Quantity:", quantity)
+print("Price   :", price)
+print("Total   :", total)
+"""
+
+    text_editor.delete("1.0", tk.END)
+    text_editor.insert(tk.END, code)
+
+    statusbar.config(text="Loaded Activity 2")
+
+
+# ---------------- ACTIVITY 3 ---------------- #
+
+def load_activity_3():
+    code = """emp_num = int(input("Enter Employee Number: "))
+emp_name = input("Enter Employee Name: ")
+days_worked = int(input("Enter Days Worked: "))
+daily_rate = float(input("Enter Daily Rate: "))
+
+sss = float(input("Enter SSS Deduction: "))
+philhealth = float(input("Enter PhilHealth Deduction: "))
+cash_advance = float(input("Enter Cash Advance: "))
+
+gross_pay = days_worked * daily_rate
+total_deduction = sss + philhealth + cash_advance
+net_pay = gross_pay - total_deduction
+
+print("\\n--- PAYROLL SUMMARY ---")
+print("Employee Number :", emp_num)
+print("Employee Name   :", emp_name)
+print("Days Worked     :", days_worked)
+print("Daily Rate      :", daily_rate)
+print("Gross Pay       :", gross_pay)
+
+print("\\n--- DEDUCTIONS ---")
+print("SSS             :", sss)
+print("PhilHealth      :", philhealth)
+print("Cash Advance    :", cash_advance)
+print("Total Deduction :", total_deduction)
+
+print("\\nNet Pay         :", net_pay)
+"""
+
+    text_editor.delete("1.0", tk.END)
+    text_editor.insert(tk.END, code)
+
+    statusbar.config(text="Loaded Activity 3")
+
+
+# ---------------- ACTIVITY 4 ---------------- #
+
+def load_activity_4():
+    code = """student_id = input("Enter Student ID: ")
+student_name = input("Enter Student Name: ")
+section = input("Enter Section: ")
+subject = input("Enter Subject: ")
+
+prelim = float(input("Enter Prelim Grade: "))
+midterm = float(input("Enter Midterm Grade: "))
+finals = float(input("Enter Final Grade: "))
+
+average = ((prelim * 0.2) + (midterm * 0.3) + (finals * 0.5))
+print(average)
+
+if average >= 75:
+    remarks = "PASSED"
+else:
+    remarks = "FAILED"
+
+print("\\n--- STUDENT GRADE SUMMARY ---")
+print("Student ID     :", student_id)
+print("Student Name   :", student_name)
+print("Section        :", section)
+print("Subject        :", subject)
+print("Prelim Grade   :", prelim)
+print("Midterm Grade  :", midterm)
+print("Final Grade    :", finals)
+print("Average Grade  :", round(average, 2))
+print("Remarks        :", remarks)
+"""
+
+    text_editor.delete("1.0", tk.END)
+    text_editor.insert(tk.END, code)
+
+    statusbar.config(text="Loaded Activity 4")
+
+
+# ---------------- INFO ---------------- #
+
+def personal_info():
+    info = """
+Name: Kevin Ray C Mercado
+Age: 18 years old
+ID: 2025302302
+Section: IT1R11
+
+Skills:
+- Python Programming
+- GUI Development
+- Problem Solving
+- Database Management
+- Web Development
+"""
+    messagebox.showinfo("Personal Info", info)
+    statusbar.config(text="Opened Personal Info")
+
+
+def about_us():
+    about = """
+Professional Python Editor (Tkinter)
+
+Features:
+- Code editing
+- File management
+- Run Python code
+- Embedded output terminal
+- Activity system
+
+Educational project.
+"""
+    messagebox.showinfo("About Us", about)
+    statusbar.config(text="Opened About Us")
+
+
+# ---------------- FIXED RUN CODE ---------------- #
+
+def run_code():
+    code = text_editor.get("1.0", tk.END)
+
+    output_buffer = io.StringIO()
+
+    old_stdout = sys.stdout
+    old_stderr = sys.stderr
+
+    sys.stdout = output_buffer
+    sys.stderr = output_buffer
+
+    try:
+        exec(code, {"__builtins__": __builtins__})
+    except Exception as e:
+        print("Error:", e)
+
+    sys.stdout = old_stdout
+    sys.stderr = old_stderr
+
+    show_output(output_buffer.getvalue())
+    statusbar.config(text="Code executed")
+
+
+# ---------------- OUTPUT ---------------- #
+
+def show_output(text):
+    output_frame.pack(side=tk.BOTTOM, fill=tk.X)
+
+    output_text.config(state=tk.NORMAL)
+    output_text.delete("1.0", tk.END)
+    output_text.insert(tk.END, text if text else "No output")
+    output_text.config(state=tk.DISABLED)
+
+
+def hide_output():
+    output_frame.pack_forget()
+
+
+# ---------------- EDITOR ---------------- #
+
+editor_frame = tk.Frame(window, bg="#2b2b2b")
+editor_frame.pack(fill=tk.BOTH, expand=True)
+
+text_editor = tk.Text(
+    editor_frame,
+    wrap=tk.NONE,
+    undo=True,
+    bg="#1e1e1e",
+    fg="#dcdcdc",
+    insertbackground="white",
+    selectbackground="#555555",
+    font=("Consolas", 12)
+)
+
+scroll_y = ttk.Scrollbar(editor_frame, orient=tk.VERTICAL, command=text_editor.yview)
+scroll_x = ttk.Scrollbar(editor_frame, orient=tk.HORIZONTAL, command=text_editor.xview)
+
+text_editor.configure(yscrollcommand=scroll_y.set, xscrollcommand=scroll_x.set)
+
+text_editor.grid(row=0, column=0, sticky="nsew")
+scroll_y.grid(row=0, column=1, sticky="ns")
+scroll_x.grid(row=1, column=0, sticky="ew")
+
+editor_frame.rowconfigure(0, weight=1)
+editor_frame.columnconfigure(0, weight=1)
+
+
+# ---------------- OUTPUT PANEL ---------------- #
+
+output_frame = tk.Frame(window, bg="#111111", height=120)
+
+output_top = tk.Frame(output_frame, bg="#111111")
+output_top.pack(fill=tk.X)
+
+tk.Label(output_top, text="OUTPUT TERMINAL", bg="#111111", fg="#00ff88").pack(side=tk.LEFT)
+
+tk.Button(
+    output_top,
+    text="Close",
+    command=hide_output,
+    bg="#222",
+    fg="white"
+).pack(side=tk.RIGHT)
+
+output_text = tk.Text(
+    output_frame,
+    height=6,
+    bg="#111111",
+    fg="#00ff88",
+    insertbackground="white",
+    font=("Consolas", 10)
+)
+
+output_text.pack(fill=tk.BOTH, expand=True)
+output_text.config(state=tk.DISABLED)
+
+
+# ---------------- MENU ---------------- #
+
+menubar = tk.Menu(window)
+
+filemenu = tk.Menu(menubar, tearoff=0)
+filemenu.add_command(label="New", accelerator="Ctrl+N", command=newfile)
+filemenu.add_command(label="Open", accelerator="Ctrl+O", command=openfile)
+filemenu.add_command(label="Save", accelerator="Ctrl+S", command=savefile)
+
+filemenu.add_separator()
+
+filemenu.add_command(label="Activity 1", command=load_activity_1)
+filemenu.add_command(label="Activity 2", command=load_activity_2)
+filemenu.add_command(label="Activity 3", command=load_activity_3)
+filemenu.add_command(label="Activity 4", command=load_activity_4)
+
+filemenu.add_separator()
+
+filemenu.add_command(label="Personal Info", command=personal_info)
+filemenu.add_command(label="Exit", accelerator="Ctrl+Q", command=exitprogram)
+
+menubar.add_cascade(label="File", menu=filemenu)
+
+runmenu = tk.Menu(menubar, tearoff=0)
+runmenu.add_command(label="Run Code", accelerator="F5", command=run_code)
+menubar.add_cascade(label="Run", menu=runmenu)
+
+helpmenu = tk.Menu(menubar, tearoff=0)
+helpmenu.add_command(label="About Us", command=about_us)
+menubar.add_cascade(label="Help", menu=helpmenu)
+
+window.config(menu=menubar)
+
+
+# ---------------- STATUS BAR ---------------- #
+
+statusbar = ttk.Label(
+    window,
+    text="Ready",
+    relief=tk.SUNKEN,
+    anchor="w"
+)
+statusbar.pack(side=tk.BOTTOM, fill=tk.X)
+
+
+# ---------------- SHORTCUTS ---------------- #
+
+window.bind("<Control-n>", lambda e: newfile())
+window.bind("<Control-o>", lambda e: openfile())
+window.bind("<Control-s>", lambda e: savefile())
+window.bind("<Control-q>", lambda e: exitprogram())
+window.bind("<F5>", lambda e: run_code())
+
+
+# ---------------- START ---------------- #
+
+window.mainloop()
