@@ -3,1223 +3,1582 @@ from tkinter import ttk, messagebox, filedialog, simpledialog
 from pathlib import Path
 import sys
 import io
-
-window = tk.Tk()
-window.title("Professional Python Editor")
-window.geometry("900x600")
-window.configure(bg="#2b2b2b")
-
-style = ttk.Style()
-style.theme_use("clam")
-
-style.configure(
-    "TLabel",
-    background="#2b2b2b",
-    foreground="#dcdcdc"
-)
-
-def newfile():
-    text_editor.delete("1.0", tk.END)
-    text_editor.insert(tk.END, "# Start typing your Python code here...\n")
-    statusbar.config(text="New file created")
-
-def openfile():
-    filename = filedialog.askopenfilename(
-        title="Open File",
-        filetypes=[
-            ("Python Files", "*.py"),
-            ("Text Files", "*.txt"),
-            ("All Files", "*.*")
-        ]
-    )
-
-    if filename:
-        with open(filename, "r", encoding="utf-8") as f:
-            content = f.read()
-
-        text_editor.delete("1.0", tk.END)
-        text_editor.insert(tk.END, content)
-
-        statusbar.config(text=f"Opened: {Path(filename).name}")
-
-def savefile():
-    filename = filedialog.asksaveasfilename(
-        defaultextension=".txt",
-        filetypes=[
-            ("Text Files", "*.txt"),
-            ("Python Files", "*.py"),
-            ("All Files", "*.*")
-        ],
-        title="Save File"
-    )
-
-    if filename:
-        with open(filename, "w", encoding="utf-8") as f:
-            f.write(text_editor.get("1.0", tk.END))
-
-        statusbar.config(text=f"Saved: {Path(filename).name}")
-        messagebox.showinfo("Save", "File saved successfully!")
-
-def exitprogram():
-    if messagebox.askokcancel("Exit", "Do you really want to quit?"):
-        window.destroy()
-
-def load_activity_1():
-    code = """name = 'Kevin Ray C Mercado'
-id_ = "2025302302"
-age = "18"
-section = 'IT1R11'
-
-print("------- STUDENT INFORMATION --------- ")
-print("Name:    ", name)
-print("ID:      ", id_)
-print("AGE:     ", age)
-print("SECTION: ", section)
-"""
-
-    text_editor.delete("1.0", tk.END)
-    text_editor.insert(tk.END, code)
-
-    statusbar.config(text="Loaded Activity 1")
-
-def load_activity_2():
-    code = """from tkinter import simpledialog
-
-cust_num = simpledialog.askinteger("Input", "Enter your Number:")
-cust_name = simpledialog.askstring("Input", "Enter your Name:")
-product  = simpledialog.askstring("Input", "Enter Product Name:")
-quantity = simpledialog.askinteger("Input", "Enter Quantity:")
-price = simpledialog.askfloat("Input", "Enter Price:")
-
-if all(v is not None for v in [cust_num, cust_name, product, quantity, price]):
-    total = quantity * price
-    print("\\n--- SALES SUMMARY ---")
-    print("Number  :", cust_num)
-    print("Name    :", cust_name)
-    print("Product :", product)
-    print("Quantity:", quantity)
-    print("Price   :", price)
-    print("Total   :", total)
-else:
-    print("Input cancelled.")
-"""
-
-    text_editor.delete("1.0", tk.END)
-    text_editor.insert(tk.END, code)
-
-    statusbar.config(text="Loaded Activity 2")
-
-def load_activity_3():
-    code = """from tkinter import simpledialog
-
-emp_num = simpledialog.askinteger("Input", "Enter Employee Number:")
-emp_name = simpledialog.askstring("Input", "Enter Employee Name:")
-days_worked = simpledialog.askinteger("Input", "Enter Days Worked:")
-daily_rate = simpledialog.askfloat("Input", "Enter Daily Rate:")
-
-sss = simpledialog.askfloat("Input", "Enter SSS Deduction:")
-philhealth = simpledialog.askfloat("Input", "Enter PhilHealth Deduction:")
-cash_advance = simpledialog.askfloat("Input", "Enter Cash Advance:")
-
-if all(v is not None for v in [emp_num, emp_name, days_worked, daily_rate, sss, philhealth, cash_advance]):
-    gross_pay = days_worked * daily_rate
-    total_deduction = sss + philhealth + cash_advance
-    net_pay = gross_pay - total_deduction
-
-    print("\\n--- PAYROLL SUMMARY ---")
-    print("Employee Number :", emp_num)
-    print("Employee Name   :", emp_name)
-    print("Days Worked     :", days_worked)
-    print("Daily Rate      :", daily_rate)
-    print("Gross Pay       :", gross_pay)
-
-    print("\\n--- DEDUCTIONS ---")
-    print("SSS             :", sss)
-    print("PhilHealth      :", philhealth)
-    print("Cash Advance    :", cash_advance)
-    print("Total Deduction :", total_deduction)
-
-    print("\\nNet Pay         :", net_pay)
-else:
-    print("Input cancelled.")
-"""
-
-    text_editor.delete("1.0", tk.END)
-    text_editor.insert(tk.END, code)
-
-    statusbar.config(text="Loaded Activity 3")
-
-def load_activity_4():
-    code = """from tkinter import simpledialog
-
-student_id = simpledialog.askstring("Input", "Enter Student ID:")
-student_name = simpledialog.askstring("Input", "Enter Student Name:")
-section = simpledialog.askstring("Input", "Enter Section:")
-subject = simpledialog.askstring("Input", "Enter Subject:")
-
-prelim = simpledialog.askfloat("Input", "Enter Prelim Grade:")
-midterm = simpledialog.askfloat("Input", "Enter Midterm Grade:")
-finals = simpledialog.askfloat("Input", "Enter Final Grade:")
-
-if all(v is not None for v in [student_id, student_name, prelim, midterm, finals]):
-    average = ((prelim * 0.2) + (midterm * 0.3) + (finals * 0.5))
-
-    if average >= 75:
-        remarks = "PASSED"
-    else:
-        remarks = "FAILED"
-
-    print("\\n--- STUDENT GRADE SUMMARY ---")
-    print("Student ID     :", student_id)
-    print("Student Name   :", student_name)
-    print("Section         :", section)
-    print("Subject         :", subject)
-    print("Prelim Grade   :", prelim)
-    print("Midterm Grade  :", midterm)
-    print("Final Grade    :", finals)
-    print("Average Grade  :", round(average, 2))
-    print("Remarks         :", remarks)
-else:
-    print("Input cancelled.")
-"""
-
-    text_editor.delete("1.0", tk.END)
-    text_editor.insert(tk.END, code)
-
-    statusbar.config(text="Loaded Activity 4")
-
-def load_activity_5():
-    code = """import tkinter as tk
-from tkinter import ttk, messagebox
-
-def compute_grade():
-    try:
-        prelim = float(prelim_entry.get())
-        midterm = float(midterm_entry.get())
-        finals = float(finals_entry.get())
-
-        average = (prelim + midterm + finals) / 3
-        remarks = "PASSED" if average >= 75 else "FAILED"
-
-        messagebox.showinfo(
-            "Student Grade Result",
-f\"\"\"STUDENT GRADE REPORT
-
-ID        : {id_entry.get()}
-Name      : {name_entry.get()}
-Section   : {section_combo.get()}
-Subject   : {subject_combo.get()}
-
-Average   : {average:.2f}
-Remarks   : {remarks}
-\"\"\"
-        )
-
-    except ValueError:
-        messagebox.showerror("Input Error", "Please enter valid numeric grades!")
-
-root = tk.Tk()
-root.title("Student Grade System")
-root.geometry("520x500")
-root.configure(bg="#1e1e2f")
-
-header = tk.Label(root, text="STUDENT GRADE SYSTEM",
-                  font=("Arial", 18, "bold"),
-                  bg="#1e1e2f", fg="#00d4ff")
-header.pack(pady=15)
-
-frame = tk.Frame(root, bg="#2a2a40", padx=20, pady=20)
-frame.pack(padx=20, pady=10, fill="both", expand=True)
-
-tk.Label(frame, text="Student ID", bg="#2a2a40", fg="white").grid(row=0, column=0, sticky="w")
-id_entry = tk.Entry(frame, width=30)
-id_entry.grid(row=0, column=1, pady=5)
-
-tk.Label(frame, text="Student Name", bg="#2a2a40", fg="white").grid(row=1, column=0, sticky="w")
-name_entry = tk.Entry(frame, width=30)
-name_entry.grid(row=1, column=1, pady=5)
-
-tk.Label(frame, text="Section", bg="#2a2a40", fg="white").grid(row=2, column=0, sticky="w")
-section_combo = ttk.Combobox(frame, width=27, values=[
-    "BSIT", "BSCS", "BSIS", "BSCE", "BSCpE", "BSCEA",
-    "BSHM", "BSTM", "BSA", "BSBA", "BSEd", "BEEd"
-])
-section_combo.grid(row=2, column=1, pady=5)
-
-tk.Label(frame, text="Subject", bg="#2a2a40", fg="white").grid(row=3, column=0, sticky="w")
-subject_combo = ttk.Combobox(frame, width=27, values=[
-    "DSA (Data Structure and Algorithm)",
-    "Comprog",
-    "Pathfit",
-    "Discrete Math",
-    "UTS",
-    "Art App",
-    "STS"
-])
-subject_combo.grid(row=3, column=1, pady=5)
-
-tk.Label(frame, text="Prelim Grade", bg="#2a2a40", fg="white").grid(row=4, column=0, sticky="w")
-prelim_entry = tk.Entry(frame, width=30)
-prelim_entry.grid(row=4, column=1, pady=5)
-
-tk.Label(frame, text="Midterm Grade", bg="#2a2a40", fg="white").grid(row=5, column=0, sticky="w")
-midterm_entry = tk.Entry(frame, width=30)
-midterm_entry.grid(row=5, column=1, pady=5)
-
-tk.Label(frame, text="Final Grade", bg="#2a2a40", fg="white").grid(row=6, column=0, sticky="w")
-finals_entry = tk.Entry(frame, width=30)
-finals_entry.grid(row=6, column=1, pady=5)
-
-btn = tk.Button(frame, text="Compute Grade",
-                command=compute_grade,
-                bg="#00c853", fg="white",
-                font=("Arial", 11, "bold"))
-btn.grid(row=7, column=0, columnspan=2, pady=15)
-
-root.mainloop()
-"""
-
-    text_editor.delete("1.0", tk.END)
-    text_editor.insert(tk.END, code)
-
-    statusbar.config(text="Loaded Activity 5")
-
-def load_activity_6():
-    code = '''import tkinter as tk
-from tkinter import ttk, messagebox
 import sqlite3
-import os
 
+# --- PREMIUM THEME COLORS ---
+CLR_BG = "#0B0E14"
+CLR_CARD = "#151921"
+CLR_ACCENT = "#00F0FF"
+CLR_TEXT = "#E0E0E0"
+CLR_BTN = "#1A73E8"
+CLR_TERMINAL = "#00FF9D"
+
+
+# ================= DATABASE =================
 class DatabaseManager:
-    def __init__(self, db_name="system.db"):
-        self.db_name = db_name
-        self.init_db()
+    def __init__(self):
+        self.conn = sqlite3.connect("dev_studio.db")
+        self.create_table()
 
-    def init_db(self):
-        with sqlite3.connect(self.db_name) as conn:
-            cursor = conn.cursor()
-
-            cursor.execute("""
-                CREATE TABLE IF NOT EXISTS accounts (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    def create_table(self):
+        with self.conn:
+            self.conn.execute("""
+                CREATE TABLE IF NOT EXISTS users (
                     username TEXT UNIQUE,
                     password TEXT
                 )
             """)
 
-            cursor.execute("""
-                CREATE TABLE IF NOT EXISTS users (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    number TEXT,
-                    name TEXT,
-                    age INTEGER,
-                    gender TEXT,
-                    address TEXT,
-                    username TEXT,
-                    password TEXT
-                )
-            """)
-            conn.commit()
-
-    def register_account(self, user, pw):
+    def register(self, u, p):
         try:
-            with sqlite3.connect(self.db_name) as conn:
-                cursor = conn.cursor()
-                cursor.execute("INSERT INTO accounts (username, password) VALUES (?,?)",
-                               (user, pw))
-                conn.commit()
+            with self.conn:
+                self.conn.execute(
+                    "INSERT INTO users VALUES (?, ?)",
+                    (u, p)
+                )
             return True
         except:
             return False
 
-    def login_account(self, user, pw):
-        with sqlite3.connect(self.db_name) as conn:
-            cursor = conn.cursor()
-            cursor.execute("SELECT * FROM accounts WHERE username=? AND password=?",
-                           (user, pw))
-            return cursor.fetchone()
+    def check_user(self, u, p):
+        cursor = self.conn.cursor()
 
-    def insert_user(self, number, name, age, gender, address, username, password):
-        with sqlite3.connect(self.db_name) as conn:
-            cursor = conn.cursor()
-            cursor.execute("""
-                INSERT INTO users (number, name, age, gender, address, username, password)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
-            """, (number, name, age, gender, address, username, password))
-            conn.commit()
-
-    def fetch_users(self):
-        with sqlite3.connect(self.db_name) as conn:
-            cursor = conn.cursor()
-            cursor.execute("SELECT * FROM users")
-            return cursor.fetchall()
-
-    def update_user(self, user_id, number, name, age, gender, address, username, password):
-        with sqlite3.connect(self.db_name) as conn:
-            cursor = conn.cursor()
-            cursor.execute("""
-                UPDATE users
-                SET number=?, name=?, age=?, gender=?, address=?, username=?, password=?
-                WHERE id=?
-            """, (number, name, age, gender, address, username, password, user_id))
-            conn.commit()
-
-    def delete_user(self, user_id):
-        with sqlite3.connect(self.db_name) as conn:
-            cursor = conn.cursor()
-            cursor.execute("DELETE FROM users WHERE id=?", (user_id,))
-            conn.commit()
-
-class LoginApp:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Login System")
-        self.root.geometry("350x300")
-        self.root.configure(bg="#1e1e2f")
-
-        self.db = DatabaseManager()
-
-        tk.Label(root, text="LOGIN",
-                 font=("Arial", 18, "bold"),
-                 bg="#1e1e2f", fg="white").pack(pady=10)
-
-        tk.Label(root, text="Username", bg="#1e1e2f", fg="white").pack()
-        self.user = tk.Entry(root)
-        self.user.pack()
-
-        tk.Label(root, text="Password", bg="#1e1e2f", fg="white").pack()
-        self.pw = tk.Entry(root, show="*")
-        self.pw.pack()
-
-        tk.Button(root, text="Login", bg="green", fg="white",
-                  command=self.login).pack(pady=5)
-
-        tk.Button(root, text="Create Account", bg="blue", fg="white",
-                  command=self.open_register).pack(pady=5)
-
-    def login(self):
-        if self.db.login_account(self.user.get(), self.pw.get()):
-            messagebox.showinfo("Success", "Login Successful!")
-            self.root.destroy()
-            open_main_app()
-        else:
-            messagebox.showerror("Error", "Invalid login")
-
-    def open_register(self):
-        RegisterWindow(self.db)
-
-class RegisterWindow:
-    def __init__(self, db):
-        self.db = db
-        self.win = tk.Toplevel()
-        self.win.title("Register Account")
-        self.win.geometry("300x250")
-        self.win.configure(bg="#2a2a40")
-
-        tk.Label(self.win, text="Create Account",
-                 bg="#2a2a40", fg="white",
-                 font=("Arial", 14, "bold")).pack(pady=10)
-
-        tk.Label(self.win, text="Username", bg="#2a2a40", fg="white").pack()
-        self.user = tk.Entry(self.win)
-        self.user.pack()
-
-        tk.Label(self.win, text="Password", bg="#2a2a40", fg="white").pack()
-        self.pw = tk.Entry(self.win, show="*")
-        self.pw.pack()
-
-        tk.Button(self.win, text="Register", bg="green", fg="white",
-                  command=self.register).pack(pady=10)
-
-    def register(self):
-        if self.db.register_account(self.user.get(), self.pw.get()):
-            messagebox.showinfo("Success", "Account Created!")
-            self.win.destroy()
-        else:
-            messagebox.showerror("Error", "Username already exists")
-
-class App:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("User System")
-        self.root.geometry("1200x650")
-        self.root.configure(bg="#2a2a40")
-
-        self.db = DatabaseManager()
-        self.selected_id = None
-
-        self.build_ui()
-        self.load_data()
-
-    def build_ui(self):
-        frame = tk.LabelFrame(self.root, text="User Info",
-                              bg="#2a2a40", fg="white")
-        frame.pack(fill="x", padx=10, pady=10)
-
-        self.number = tk.Entry(frame)
-        self.name = tk.Entry(frame)
-        self.age = tk.Entry(frame)
-        self.address = tk.Entry(frame)
-        self.username = tk.Entry(frame)
-        self.password = tk.Entry(frame)
-
-        self.gender = tk.StringVar()
-
-        tk.Label(frame, text="Number", bg="#2a2a40", fg="white").grid(row=0, column=0)
-        self.number.grid(row=0, column=1)
-
-        tk.Label(frame, text="Name", bg="#2a2a40", fg="white").grid(row=0, column=2)
-        self.name.grid(row=0, column=3)
-
-        tk.Label(frame, text="Age", bg="#2a2a40", fg="white").grid(row=1, column=0)
-        self.age.grid(row=1, column=1)
-
-        tk.Radiobutton(frame, text="Male", variable=self.gender,
-                       value="Male", bg="#2a2a40", fg="white").grid(row=1, column=2)
-
-        tk.Radiobutton(frame, text="Female", variable=self.gender,
-                       value="Female", bg="#2a2a40", fg="white").grid(row=1, column=3)
-
-        tk.Label(frame, text="Address", bg="#2a2a40", fg="white").grid(row=2, column=0)
-        self.address.grid(row=2, column=1)
-
-        tk.Label(frame, text="Username", bg="#2a2a40", fg="white").grid(row=2, column=2)
-        self.username.grid(row=2, column=3)
-
-        tk.Label(frame, text="Password", bg="#2a2a40", fg="white").grid(row=2, column=4)
-        self.password.grid(row=2, column=5)
-
-        btn = tk.Frame(self.root, bg="#2a2a40")
-        btn.pack(pady=10)
-
-        tk.Button(btn, text="Add", bg="green", fg="white",
-                  command=self.add, width=10).pack(side="left", padx=5)
-
-        tk.Button(btn, text="Update", bg="blue", fg="white",
-                  command=self.update, width=10).pack(side="left", padx=5)
-
-        tk.Button(btn, text="Delete", bg="red", fg="white",
-                  command=self.delete, width=10).pack(side="left", padx=5)
-
-        tk.Button(btn, text="Clear",
-                  command=self.clear, width=10).pack(side="left", padx=5)
-
-        tk.Button(btn, text="Exit", bg="black", fg="white",
-                  command=self.root.destroy, width=10).pack(side="left", padx=5)
-
-        self.tree = ttk.Treeview(self.root,
-                                 columns=("ID","Number","Name","Age","Gender","Address","User","Pass"),
-                                 show="headings")
-
-        for c in self.tree["columns"]:
-            self.tree.heading(c, text=c)
-
-        self.tree.pack(fill="both", expand=True)
-        self.tree.bind("<ButtonRelease-1>", self.select)
-
-    def add(self):
-        self.db.insert_user(
-            self.number.get(),
-            self.name.get(),
-            self.age.get(),
-            self.gender.get(),
-            self.address.get(),
-            self.username.get(),
-            self.password.get()
+        cursor.execute(
+            "SELECT * FROM users WHERE username=? AND password=?",
+            (u, p)
         )
-        self.load_data()
-        self.clear()
 
-    def load_data(self):
-        for i in self.tree.get_children():
-            self.tree.delete(i)
+        return cursor.fetchone()
 
-        for row in self.db.fetch_users():
-            row = list(row)
-            row[7] = "******"
-            self.tree.insert("", "end", values=row)
 
-    def select(self, event):
-        item = self.tree.item(self.tree.selection()[0])
-        data = item["values"]
+# ================= MAIN APP =================
+class ModernStudio:
+    def __init__(self, root):
 
-        self.selected_id = data[0]
+        self.root = root
+        self.root.title("DevStudio Pro")
+        self.root.geometry("1100x750")
+        self.root.configure(bg=CLR_BG)
 
-        self.number.delete(0, tk.END); self.number.insert(0, data[1])
-        self.name.delete(0, tk.END); self.name.insert(0, data[2])
-        self.age.delete(0, tk.END); self.age.insert(0, data[3])
-        self.gender.set(data[4])
-        self.address.delete(0, tk.END); self.address.insert(0, data[5])
-        self.username.delete(0, tk.END); self.username.insert(0, data[6])
+        self.db = DatabaseManager()
 
-    def update(self):
-        if self.selected_id:
-            self.db.update_user(
-                self.selected_id,
-                self.number.get(),
-                self.name.get(),
-                self.age.get(),
-                self.gender.get(),
-                self.address.get(),
-                self.username.get(),
-                self.password.get()
+        self.main_container = tk.Frame(
+            self.root,
+            bg=CLR_BG
+        )
+
+        self.main_container.pack(fill="both", expand=True)
+
+        self.show_login()
+
+    # ================= LOGIN PAGE =================
+    def show_login(self):
+
+        for w in self.main_container.winfo_children():
+            w.destroy()
+
+        card = tk.Frame(
+            self.main_container,
+            bg=CLR_CARD,
+            padx=40,
+            pady=40,
+            highlightbackground=CLR_ACCENT,
+            highlightthickness=1
+        )
+
+        card.place(relx=0.5, rely=0.5, anchor="center")
+
+        tk.Label(
+            card,
+            text="WELCOME BACK",
+            font=("Inter", 28, "bold"),
+            bg=CLR_CARD,
+            fg=CLR_ACCENT
+        ).pack(pady=(0, 30))
+
+        tk.Label(
+            card,
+            text="USERNAME",
+            font=("Inter", 9, "bold"),
+            bg=CLR_CARD,
+            fg="#888"
+        ).pack(anchor="w")
+
+        self.u_ent = tk.Entry(
+            card,
+            width=30,
+            font=("Inter", 12),
+            bg="#0B0E14",
+            fg="white",
+            insertbackground="white",
+            relief="flat"
+        )
+
+        self.u_ent.pack(pady=(5, 20), ipady=8)
+
+        tk.Label(
+            card,
+            text="PASSWORD",
+            font=("Inter", 9, "bold"),
+            bg=CLR_CARD,
+            fg="#888"
+        ).pack(anchor="w")
+
+        self.p_ent = tk.Entry(
+            card,
+            width=30,
+            font=("Inter", 12),
+            bg="#0B0E14",
+            fg="white",
+            show="*",
+            insertbackground="white",
+            relief="flat"
+        )
+
+        self.p_ent.pack(pady=(5, 30), ipady=8)
+
+        tk.Button(
+            card,
+            text="SIGN IN",
+            font=("Inter", 11, "bold"),
+            bg=CLR_BTN,
+            fg="white",
+            activebackground="#1557B0",
+            relief="flat",
+            width=25,
+            command=self.do_login
+        ).pack(ipady=10)
+
+        link = tk.Label(
+            card,
+            text="Create New Account",
+            font=("Inter", 10),
+            bg=CLR_CARD,
+            fg=CLR_ACCENT,
+            cursor="hand2"
+        )
+
+        link.pack(pady=(20, 0))
+        link.bind("<Button-1>", lambda e: self.do_register())
+
+    def do_login(self):
+
+        if self.db.check_user(
+            self.u_ent.get(),
+            self.p_ent.get()
+        ):
+            self.show_dashboard()
+
+        else:
+            messagebox.showerror(
+                "Error",
+                "Invalid Login Details"
             )
-            self.load_data()
-            self.clear()
 
-    def delete(self):
-        if self.selected_id:
-            self.db.delete_user(self.selected_id)
-            self.load_data()
-            self.clear()
+    def do_register(self):
 
-    def clear(self):
-        self.number.delete(0, tk.END)
-        self.name.delete(0, tk.END)
-        self.age.delete(0, tk.END)
-        self.address.delete(0, tk.END)
-        self.username.delete(0, tk.END)
-        self.password.delete(0, tk.END)
-        self.gender.set("")
-        self.selected_id = None
+        u = self.u_ent.get()
+        p = self.p_ent.get()
 
-def open_main_app():
-    root = tk.Tk()
-    App(root)
-    root.mainloop()
+        if u and p:
 
-login_root = tk.Tk()
-LoginApp(login_root)
-login_root.mainloop()
-'''
+            if self.db.register(u, p):
+                messagebox.showinfo(
+                    "Success",
+                    "Account Ready!"
+                )
 
-    text_editor.delete("1.0", tk.END)
-    text_editor.insert(tk.END, code)
+            else:
+                messagebox.showerror(
+                    "Error",
+                    "User Exists"
+                )
 
-    statusbar.config(text="Loaded Activity 6")
+    # ================= DASHBOARD =================
+    def show_dashboard(self):
 
-def load_activity_7():
-    code = '''import tkinter as tk
-from tkinter import ttk, messagebox
+        for w in self.main_container.winfo_children():
+            w.destroy()
 
-selected_item = None
-
-def select_item(event):
-    global selected_item
-    selected = tree.selection()
-    if selected:
-        selected_item = selected[0]
-
-def compute_payroll():
-    global selected_item
-
-    try:
-        if not entry_num.get() or not entry_name.get():
-            messagebox.showwarning("Input Error", "Employee Number and Name are required.")
-            return
-
-        rate = float(entry_rate.get())
-        days = float(entry_days.get())
-        sss = float(entry_sss.get())
-        phil = float(entry_phil.get())
-        ca = float(entry_ca.get())
-
-        gross = rate * days
-        total_deductions = sss + phil + ca
-        net_pay = gross - total_deductions
-
-        values = (
-            entry_num.get(),
-            entry_name.get(),
-            gender_var.get(),
-            combo_pos.get(),
-            f"{rate:,.2f}",
-            int(days),
-            f"{gross:,.2f}",
-            f"{sss:,.2f}",
-            f"{phil:,.2f}",
-            f"{ca:,.2f}",
-            f"{total_deductions:,.2f}",
-            f"{net_pay:,.2f}"
+        # HEADER
+        header = tk.Frame(
+            self.main_container,
+            bg="#080A0F",
+            height=80
         )
 
-        if selected_item:
-            tree.item(selected_item, values=values)
+        header.pack(side="top", fill="x")
+
+        tk.Label(
+            header,
+            text="Welcome to Dashboard",
+            font=("Inter", 24, "bold"),
+            bg="#080A0F",
+            fg=CLR_ACCENT
+        ).pack(pady=20)
+
+        tk.Button(
+            header,
+            text="▶ RUN CODE",
+            bg="#00C853",
+            fg="white",
+            font=("Inter", 10, "bold"),
+            relief="flat",
+            padx=20,
+            command=self.run_code
+        ).pack(side="right", padx=20)
+
+        # SIDEBAR
+        sidebar = tk.Frame(
+            self.main_container,
+            bg=CLR_CARD,
+            width=200
+        )
+
+        sidebar.pack(side="left", fill="y")
+
+        tk.Label(
+            sidebar,
+            text="PROJECTS",
+            font=("Inter", 10, "bold"),
+            bg=CLR_CARD,
+            fg="#555"
+        ).pack(pady=20)
+
+        activities = [
+            "Activity 1",
+            "Activity 2",
+            "Activity 3",
+            "Activity 4",
+            "Activity 5",
+            "Activity 6",
+            "Activity 7",
+            "Activity 8"
+        ]
+
+        for act in activities:
+
+            btn = tk.Button(
+                sidebar,
+                text=act,
+                font=("Inter", 10),
+                bg=CLR_CARD,
+                fg=CLR_TEXT,
+                relief="flat",
+                anchor="w",
+                padx=20,
+                command=lambda a=act: self.load_code(a)
+            )
+
+            btn.pack(fill="x", ipady=8)
+
+            btn.bind(
+                "<Enter>",
+                lambda e, b=btn: b.config(bg="#1E232E")
+            )
+
+            btn.bind(
+                "<Leave>",
+                lambda e, b=btn: b.config(bg=CLR_CARD)
+            )
+
+        # WORKSPACE
+        workspace = tk.Frame(
+            self.main_container,
+            bg=CLR_BG
+        )
+
+        workspace.pack(
+            side="right",
+            fill="both",
+            expand=True,
+            padx=10,
+            pady=10
+        )
+
+        self.editor = tk.Text(
+            workspace,
+            bg="#101218",
+            fg=CLR_TEXT,
+            font=("Consolas", 12),
+            insertbackground="white",
+            relief="flat",
+            padx=10,
+            pady=10
+        )
+
+        self.editor.pack(fill="both", expand=True)
+
+        # TERMINAL
+        term_frame = tk.LabelFrame(
+            workspace,
+            text="SYSTEM OUTPUT",
+            bg=CLR_BG,
+            fg=CLR_ACCENT,
+            font=("Inter", 8, "bold")
+        )
+
+        term_frame.pack(fill="x", pady=(10, 0))
+
+        self.terminal = tk.Text(
+            term_frame,
+            height=8,
+            bg="black",
+            fg=CLR_TERMINAL,
+            font=("Consolas", 10),
+            relief="flat"
+        )
+
+        self.terminal.pack(fill="both", padx=5, pady=5)
+        self.terminal.config(state="disabled")
+
+    # ================= LOAD ACTIVITIES =================
+    def load_code(self, name):
+
+        self.editor.delete("1.0", tk.END)
+
+        if name == "Activity 1":
+
+            content = (
+                "name = 'Kevin Ray C Mercado'\n"
+                "id_ = '2025302302'\n"
+                "age = '18'\n"
+                "section = 'IT1R11'\n\n"
+
+                "print('------- STUDENT INFORMATION ---------')\n"
+                "print('Name    :', name)\n"
+                "print('ID      :', id_)\n"
+                "print('AGE     :', age)\n"
+                "print('SECTION :', section)\n"
+            )
+
+        elif name == "Activity 2":
+
+            content = (
+                "cust_num = int(input('Enter your Number: '))\n"
+                "cust_name = input('Enter your Name: ')\n"
+                "product = input('Enter Product Name: ')\n"
+                "quantity = int(input('Enter Quantity: '))\n"
+                "price = float(input('Enter Price: '))\n\n"
+
+                "total = quantity * price\n\n"
+
+                "print('\\n--- SALES SUMMARY ---')\n"
+                "print('Number   :', cust_num)\n"
+                "print('Name     :', cust_name)\n"
+                "print('Product  :', product)\n"
+                "print('Quantity :', quantity)\n"
+                "print('Price    :', price)\n"
+                "print('Total    :', total)\n"
+            )
+
+        elif name == "Activity 3":
+
+            content = (
+                "student_id = input('Enter Student ID: ')\n"
+                "student_name = input('Enter Student Name: ')\n"
+                "section = input('Enter Section: ')\n"
+                "subject = input('Enter Subject: ')\n\n"
+
+                "prelim = float(input('Enter Prelim Grade: '))\n"
+                "midterm = float(input('Enter Midterm Grade: '))\n"
+                "finals = float(input('Enter Final Grade: '))\n\n"
+
+                "average = ((prelim * 0.2) + (midterm * 0.3) + (finals * 0.5))\n\n"
+
+                "if average >= 75:\n"
+                "    remarks = 'PASSED'\n"
+                "else:\n"
+                "    remarks = 'FAILED'\n\n"
+
+                "print('\\n--- STUDENT GRADE SUMMARY ---')\n"
+                "print('Student ID     :', student_id)\n"
+                "print('Student Name   :', student_name)\n"
+                "print('Section        :', section)\n"
+                "print('Subject        :', subject)\n"
+                "print('Average Grade  :', round(average, 2))\n"
+                "print('Remarks        :', remarks)\n"
+            )
+
+        elif name == "Activity 4":
+
+            content = (
+                "import tkinter as tk\n"
+                "from tkinter import messagebox\n\n"
+
+                "def compute_grade():\n"
+                "    try:\n"
+                "        prelim = float(prelim_entry.get())\n"
+                "        midterm = float(midterm_entry.get())\n"
+                "        finals = float(finals_entry.get())\n\n"
+
+                "        average = (prelim + midterm + finals) / 3\n"
+                "        remarks = 'PASSED' if average >= 75 else 'FAILED'\n\n"
+
+                "        messagebox.showinfo(\n"
+                "            'Result',\n"
+                "            f'Average: {average:.2f}\\nRemarks: {remarks}'\n"
+                "        )\n"
+
+                "    except ValueError:\n"
+                "        messagebox.showerror('Error', 'Enter valid grades!')\n\n"
+
+                "root = tk.Toplevel()\n"
+                "root.title('Student Grade System')\n"
+                "root.geometry('520x550')\n"
+                "root.configure(bg='#1e1e2f')\n\n"
+
+                "tk.Label(\n"
+                "    root,\n"
+                "    text='STUDENT GRADE SYSTEM',\n"
+                "    font=('Arial', 18, 'bold'),\n"
+                "    bg='#1e1e2f',\n"
+                "    fg='#00d4ff'\n"
+                ").pack(pady=15)\n\n"
+
+                "frame = tk.Frame(root, bg='#2a2a40', padx=20, pady=20)\n"
+                "frame.pack(padx=20, pady=10, fill='both', expand=True)\n\n"
+
+                "tk.Label(frame, text='Student ID', bg='#2a2a40', fg='white').grid(row=0, column=0)\n"
+                "id_entry = tk.Entry(frame)\n"
+                "id_entry.grid(row=0, column=1)\n\n"
+
+                "tk.Label(frame, text='Student Name', bg='#2a2a40', fg='white').grid(row=1, column=0)\n"
+                "name_entry = tk.Entry(frame)\n"
+                "name_entry.grid(row=1, column=1)\n\n"
+
+                "tk.Label(frame, text='Prelim Grade', bg='#2a2a40', fg='white').grid(row=2, column=0)\n"
+                "prelim_entry = tk.Entry(frame)\n"
+                "prelim_entry.grid(row=2, column=1)\n\n"
+
+                "tk.Label(frame, text='Midterm Grade', bg='#2a2a40', fg='white').grid(row=3, column=0)\n"
+                "midterm_entry = tk.Entry(frame)\n"
+                "midterm_entry.grid(row=3, column=1)\n\n"
+
+                "tk.Label(frame, text='Final Grade', bg='#2a2a40', fg='white').grid(row=4, column=0)\n"
+                "finals_entry = tk.Entry(frame)\n"
+                "finals_entry.grid(row=4, column=1)\n\n"
+
+                "tk.Button(frame, text='Compute Grade', command=compute_grade,\n"
+                "bg='#00c853', fg='white').grid(row=5, column=0, pady=15)\n\n"
+
+                "tk.Button(frame, text='Exit', command=root.destroy,\n"
+                "bg='#f44336', fg='white').grid(row=5, column=1)\n"
+            )
+
+        elif name == "Activity 5":
+          
+          content = (
+        "import sqlite3\n"
+        "import tkinter as tk\n"
+        "from tkinter import messagebox, ttk\n\n"
+
+        "# ================= DATABASE =================\n"
+        "class DatabaseManager:\n"
+        "    def __init__(self, db_name='system.db'):\n"
+        "        self.db_name = db_name\n"
+        "        self.init_db()\n\n"
+
+        "    def init_db(self):\n"
+        "        with sqlite3.connect(self.db_name) as conn:\n"
+        "            c = conn.cursor()\n"
+        "            c.execute('''\n"
+        "                CREATE TABLE IF NOT EXISTS accounts(\n"
+        "                    id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
+        "                    username TEXT UNIQUE,\n"
+        "                    password TEXT)\n"
+        "            ''')\n"
+        "            c.execute('''\n"
+        "                CREATE TABLE IF NOT EXISTS users(\n"
+        "                    id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
+        "                    number TEXT,\n"
+        "                    name TEXT,\n"
+        "                    age INTEGER,\n"
+        "                    gender TEXT,\n"
+        "                    position TEXT,\n"
+        "                    address TEXT,\n"
+        "                    username TEXT,\n"
+        "                    password TEXT)\n"
+        "            ''')\n\n"
+
+        "    def execute(self, query, params=(), fetch=False):\n"
+        "        with sqlite3.connect(self.db_name) as conn:\n"
+        "            c = conn.cursor()\n"
+        "            c.execute(query, params)\n"
+        "            conn.commit()\n"
+        "            return c.fetchall() if fetch else None\n\n"
+
+        "    # LOGIN\n"
+        "    def register_account(self, u, p):\n"
+        "        try:\n"
+        "            self.execute(\n"
+        "                'INSERT INTO accounts(username,password) VALUES(?,?)', (u, p)\n"
+        "            )\n"
+        "            return True\n"
+        "        except:\n"
+        "            return False\n\n"
+
+        "    def login_account(self, u, p):\n"
+        "        return self.execute(\n"
+        "            'SELECT * FROM accounts WHERE username=? AND password=?',\n"
+        "            (u, p), True\n"
+        "        )\n\n"
+
+        "    # CRUD\n"
+        "    def insert_user(self, *data):\n"
+        "        self.execute('''\n"
+        "            INSERT INTO users(\n"
+        "                number,name,age,gender,\n"
+        "                position,address,username,password)\n"
+        "            VALUES(?,?,?,?,?,?,?,?)\n"
+        "        ''', data)\n\n"
+
+        "    def fetch_users(self):\n"
+        "        return self.execute('SELECT * FROM users', fetch=True)\n\n"
+
+        "    def fetch_single_user_password(self, user_id):\n"
+        "        res = self.execute('SELECT password FROM users WHERE id=?', (user_id,), fetch=True)\n"
+        "        return res[0][0] if res else ''\n\n"
+
+        "    def update_user(self, user_id, *data):\n"
+        "        self.execute('''\n"
+        "            UPDATE users SET\n"
+        "            number=?, name=?, age=?, gender=?,\n"
+        "            position=?, address=?, username=?, password=?\n"
+        "            WHERE id=?\n"
+        "        ''', (*data, user_id))\n\n"
+
+        "    def delete_user(self, user_id):\n"
+        "        self.execute('DELETE FROM users WHERE id=?', (user_id,))\n\n\n"
+
+        "# ================= REGISTER =================\n"
+        "class RegisterWindow:\n"
+        "    def __init__(self, db):\n"
+        "        self.db = db\n"
+        "        self.win = tk.Toplevel()\n"
+        "        self.win.title('Register')\n"
+        "        self.win.geometry('300x220')\n"
+        "        self.win.configure(bg='#2a2a40')\n\n"
+
+        "        tk.Label(self.win, text='Create Account',\n"
+        "                 bg='#2a2a40', fg='white',\n"
+        "                 font=('Arial', 14, 'bold')).pack(pady=10)\n\n"
+
+        "        self.user = self.create_entry('Username')\n"
+        "        self.pw = self.create_entry('Password', True)\n\n"
+
+        "        tk.Button(self.win, text='Register',\n"
+        "                 bg='green', fg='white',\n"
+        "                 command=self.register).pack(pady=10)\n\n"
+
+        "    def create_entry(self, label, password=False):\n"
+        "        tk.Label(self.win, text=label,\n"
+        "                 bg='#2a2a40', fg='white').pack()\n"
+        "        e = tk.Entry(self.win, show='*' if password else '')\n"
+        "        e.pack()\n"
+        "        return e\n\n"
+
+        "    def register(self):\n"
+        "        username = self.user.get()\n"
+        "        password = self.pw.get()\n"
+        "        if not username or not password:\n"
+        "            messagebox.showerror('Error', 'Fields cannot be empty!')\n"
+        "            return\n"
+        "        if self.db.register_account(username, password):\n"
+        "            messagebox.showinfo('Success', 'Account Created!')\n"
+        "            self.win.destroy()\n"
+        "        else:\n"
+        "            messagebox.showerror('Error', 'Username already exists')\n\n\n"
+
+        "# ================= LOGIN =================\n"
+        "class LoginApp:\n"
+        "    def __init__(self, root):\n"
+        "        self.root = root\n"
+        "        self.root.title('Login')\n"
+        "        self.root.geometry('350x300')\n"
+        "        self.root.configure(bg='#1e1e2f')\n\n"
+
+        "        self.db = DatabaseManager()\n\n"
+
+        "        tk.Label(root, text='LOGIN',\n"
+        "                 font=('Arial', 18, 'bold'),\n"
+        "                 bg='#1e1e2f', fg='white').pack(pady=10)\n\n"
+
+        "        self.user = self.create_entry('Username')\n"
+        "        self.pw = self.create_entry('Password', True)\n\n"
+
+        "        tk.Button(root, text='Login',\n"
+        "                 bg='green', fg='white',\n"
+        "                 command=self.login).pack(pady=5)\n\n"
+
+        "        tk.Button(root, text='Create Account',\n"
+        "                 bg='blue', fg='white',\n"
+        "                 command=lambda: RegisterWindow(self.db)).pack(pady=5)\n\n"
+
+        "    def create_entry(self, label, password=False):\n"
+        "        tk.Label(self.root, text=label,\n"
+        "                 bg='#1e1e2f', fg='white').pack()\n"
+        "        e = tk.Entry(self.root, show='*' if password else '')\n"
+        "        e.pack()\n"
+        "        return e\n\n"
+
+        "    def login(self):\n"
+        "        if self.db.login_account(self.user.get(), self.pw.get()):\n"
+        "            messagebox.showinfo('Success', 'Login Successful!')\n"
+        "            self.root.destroy()\n"
+        "            open_main_app()\n"
+        "        else:\n"
+        "            messagebox.showerror('Error', 'Invalid login')\n\n\n"
+
+        "# ================= MAIN APP =================\n"
+        "class App:\n"
+        "    def __init__(self, root):\n"
+        "        self.root = root\n"
+        "        self.root.title('User System')\n"
+        "        self.root.geometry('1200x650')\n"
+        "        self.root.configure(bg='#2a2a40')\n\n"
+
+        "        self.db = DatabaseManager()\n"
+        "        self.selected_id = None\n\n"
+
+        "        self.build_ui()\n"
+        "        self.load_data()\n\n"
+
+        "    def build_ui(self):\n"
+        "        frame = tk.LabelFrame(self.root, text='User Info', bg='#2a2a40', fg='white')\n"
+        "        frame.pack(fill='x', padx=10, pady=10)\n\n"
+
+        "        labels = ['Number', 'Name', 'Age', 'Address', 'Username', 'Password']\n"
+        "        self.entries = {}\n\n"
+
+        "        for i, text in enumerate(labels):\n"
+        "            tk.Label(frame, text=text, bg='#2a2a40', fg='white').grid(row=i//2, column=(i%2)*2, padx=5, pady=5, sticky='e')\n"
+        "            e = tk.Entry(frame, show='*' if text == 'Password' else '')\n"
+        "            e.grid(row=i//2, column=(i%2)*2+1, padx=5, pady=5)\n"
+        "            self.entries[text.lower()] = e\n\n"
+
+        "        tk.Label(frame, text='Gender', bg='#2a2a40', fg='white').grid(row=3, column=0, padx=5, pady=5, sticky='e')\n"
+        "        self.gender = tk.StringVar()\n"
+        "        tk.Radiobutton(frame, text='Male', variable=self.gender, value='Male', bg='#2a2a40', fg='white', selectcolor='#2a2a40').grid(row=3, column=1, sticky='w')\n"
+        "        tk.Radiobutton(frame, text='Female', variable=self.gender, value='Female', bg='#2a2a40', fg='white', selectcolor='#2a2a40').grid(row=3, column=1, padx=60, sticky='w')\n\n"
+
+        "        tk.Label(frame, text='Position', bg='#2a2a40', fg='white').grid(row=4, column=0, padx=5, pady=5, sticky='e')\n"
+        "        self.position = ttk.Combobox(frame, values=['Manager', 'Staff', 'Admin', 'Employee'], state='readonly')\n"
+        "        self.position.grid(row=4, column=1, padx=5, pady=5)\n\n"
+
+        "        btn_frame = tk.Frame(self.root, bg='#2a2a40')\n"
+        "        btn_frame.pack(pady=10)\n\n"
+
+        "        buttons = [\n"
+        "            ('Add', 'green', self.add),\n"
+        "            ('Update', 'blue', self.update),\n"
+        "            ('Delete', 'red', self.delete),\n"
+        "            ('Clear', 'gray', self.clear),\n"
+        "            ('Exit', 'black', self.exit_app)\n"
+        "        ]\n\n"
+
+        "        for text, color, cmd in buttons:\n"
+        "            tk.Button(btn_frame, text=text, bg=color, fg='white', width=10, command=cmd).pack(side='left', padx=5)\n\n"
+
+        "        cols = ('ID', 'Number', 'Name', 'Age', 'Gender', 'Position', 'Address', 'User', 'Pass')\n"
+        "        self.tree = ttk.Treeview(self.root, columns=cols, show='headings')\n"
+        "        for c in cols:\n"
+        "            self.tree.heading(c, text=c)\n"
+        "            self.tree.column(c, width=100, anchor='center')\n"
+        "        self.tree.pack(fill='both', expand=True, padx=10, pady=10)\n"
+        "        self.tree.bind('<ButtonRelease-1>', self.select)\n\n"
+
+        "    def get_data(self):\n"
+        "        return (\n"
+        "            self.entries['number'].get(),\n"
+        "            self.entries['name'].get(),\n"
+        "            self.entries['age'].get(),\n"
+        "            self.gender.get(),\n"
+        "            self.position.get(),\n"
+        "            self.entries['address'].get(),\n"
+        "            self.entries['username'].get(),\n"
+        "            self.entries['password'].get()\n"
+        "        )\n\n"
+
+        "    def add(self):\n"
+        "        data = self.get_data()\n"
+        "        if not data[1] or not data[6]:\n"
+        "            messagebox.showwarning('Warning', 'Name and Username are required!')\n"
+        "            return\n"
+        "        self.db.insert_user(*data)\n"
+        "        self.load_data()\n"
+        "        self.clear()\n\n"
+
+        "    def load_data(self):\n"
+        "        self.tree.delete(*self.tree.get_children())\n"
+        "        for row in self.db.fetch_users():\n"
+        "            row = list(row)\n"
+        "            row[8] = '******'\n"
+        "            self.tree.insert('', tk.END, values=row)\n\n"
+
+        "    def select(self, event):\n"
+        "        item = self.tree.selection()\n"
+        "        if not item: return\n"
+        "        data = self.tree.item(item[0])['values']\n"
+        "        self.selected_id = data[0]\n"
+        "        values = {'number': data[1], 'name': data[2], 'age': data[3], 'address': data[6], 'username': data[7]}\n"
+        "        for k, v in values.items():\n"
+        "            self.entries[k].delete(0, tk.END)\n"
+        "            self.entries[k].insert(0, v)\n"
+        "        actual_password = self.db.fetch_single_user_password(self.selected_id)\n"
+        "        self.entries['password'].delete(0, tk.END)\n"
+        "        self.entries['password'].insert(0, actual_password)\n"
+        "        self.gender.set(data[4])\n"
+        "        self.position.set(data[5])\n\n"
+
+        "    def update(self):\n"
+        "        if not self.selected_id:\n"
+        "            messagebox.showwarning('Warning', 'Select a record to update.')\n"
+        "            return\n"
+        "        self.db.update_user(self.selected_id, *self.get_data())\n"
+        "        self.load_data()\n"
+        "        self.clear()\n"
+        "        messagebox.showinfo('Success', 'Record updated successfully.')\n\n"
+
+        "    def delete(self):\n"
+        "        if not self.selected_id:\n"
+        "            messagebox.showwarning('Warning', 'Select a record to delete.')\n"
+        "            return\n"
+        "        if messagebox.askyesno('Confirm', 'Are you sure you want to delete this record?'):\n"
+        "            self.db.delete_user(self.selected_id)\n"
+        "            self.load_data()\n"
+        "            self.clear()\n\n"
+
+        "    def clear(self):\n"
+        "        for e in self.entries.values(): e.delete(0, tk.END)\n"
+        "        self.gender.set('')\n"
+        "        self.position.set('')\n"
+        "        self.selected_id = None\n\n"
+
+        "    def exit_app(self):\n"
+        "        if messagebox.askyesno('Exit', 'Do you want to exit?'):\n"
+        "            self.root.destroy()\n\n\n"
+        "# ================= RUN =================\n"
+        "def open_main_app():\n"
+        "    root = tk.Tk()\n"
+        "    App(root)\n"
+        "    root.mainloop()\n\n"
+
+        "login_root = tk.Tk()\n"
+        "LoginApp(login_root)\n"
+        "login_root.mainloop()\n"
+
+          )
+        
+        elif name == "Activity 6":
+          
+          content = (
+        "import tkinter as tk\n"
+        "from tkinter import ttk, messagebox\n"
+        "import sqlite3\n"
+        "import os\n\n"
+
+        "# ================= DATABASE =================\n"
+        "class DatabaseManager:\n"
+        "    def __init__(self, db_name='system.db'):\n"
+        "        self.db_name = db_name\n"
+        "        self.init_db()\n\n"
+
+        "    def init_db(self):\n"
+        "        with sqlite3.connect(self.db_name) as conn:\n"
+        "            cursor = conn.cursor()\n"
+        "            cursor.execute('''\n"
+        "                CREATE TABLE IF NOT EXISTS accounts (\n"
+        "                    id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
+        "                    username TEXT UNIQUE,\n"
+        "                    password TEXT\n"
+        "                )\n"
+        "            ''')\n"
+        "            cursor.execute('''\n"
+        "                CREATE TABLE IF NOT EXISTS users (\n"
+        "                    id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
+        "                    number TEXT,\n"
+        "                    name TEXT,\n"
+        "                    age INTEGER,\n"
+        "                    gender TEXT,\n"
+        "                    address TEXT,\n"
+        "                    username TEXT,\n"
+        "                    password TEXT\n"
+        "                )\n"
+        "            ''')\n"
+        "            conn.commit()\n\n"
+
+        "# ---------- LOGIN ----------\n"
+        "    def register_account(self, user, pw):\n"
+        "        try:\n"
+        "            with sqlite3.connect(self.db_name) as conn:\n"
+        "                cursor = conn.cursor()\n"
+        "                cursor.execute('INSERT INTO accounts (username, password) VALUES (?,?)',\n"
+        "                               (user, pw))\n"
+        "                conn.commit()\n"
+        "            return True\n"
+        "        except:\n"
+        "            return False\n\n"
+
+        "    def login_account(self, user, pw):\n"
+        "        with sqlite3.connect(self.db_name) as conn:\n"
+        "            cursor = conn.cursor()\n"
+        "            cursor.execute('SELECT * FROM accounts WHERE username=? AND password=?',\n"
+        "                           (user, pw))\n"
+        "            return cursor.fetchone()\n\n"
+
+        "# ---------- CRUD ----------\n"
+        "    def insert_user(self, number, name, age, gender, address, username, password):\n"
+        "        with sqlite3.connect(self.db_name) as conn:\n"
+        "            cursor = conn.cursor()\n"
+        "            cursor.execute('''\n"
+        "                INSERT INTO users (number, name, age, gender, address, username, password)\n"
+        "                VALUES (?, ?, ?, ?, ?, ?, ?)\n"
+        "            ''', (number, name, age, gender, address, username, password))\n"
+        "            conn.commit()\n\n"
+
+        "    def fetch_users(self):\n"
+        "        with sqlite3.connect(self.db_name) as conn:\n"
+        "            cursor = conn.cursor()\n"
+        "            cursor.execute('SELECT * FROM users')\n"
+        "            return cursor.fetchall()\n\n"
+
+        "    def update_user(self, user_id, number, name, age, gender, address, username, password):\n"
+        "        with sqlite3.connect(self.db_name) as conn:\n"
+        "            cursor = conn.cursor()\n"
+        "            cursor.execute('''\n"
+        "                UPDATE users\n"
+        "                SET number=?, name=?, age=?, gender=?, address=?, username=?, password=?\n"
+        "                WHERE id=?\n"
+        "            ''', (number, name, age, gender, address, username, password, user_id))\n"
+        "            conn.commit()\n\n"
+
+        "    def delete_user(self, user_id):\n"
+        "        with sqlite3.connect(self.db_name) as conn:\n"
+        "            cursor = conn.cursor()\n"
+        "            cursor.execute('DELETE FROM users WHERE id=?', (user_id,))\n"
+        "            conn.commit()\n\n"
+
+        "# ================= LOGIN =================\n"
+        "class LoginApp:\n"
+        "    def __init__(self, root):\n"
+        "        self.root = root\n"
+        "        self.root.title('Login System')\n"
+        "        self.root.geometry('350x330')\n"
+        "        self.root.configure(bg='#1e1e2f')\n\n"
+        "        self.db = DatabaseManager()\n\n"
+        "        tk.Label(root, text='LOGIN',\n"
+        "                 font=('Arial', 18, 'bold'),\n"
+        "                 bg='#1e1e2f', fg='white').pack(pady=10)\n\n"
+        "        tk.Label(root, text='Username', bg='#1e1e2f', fg='white').pack()\n"
+        "        self.user = tk.Entry(root)\n"
+        "        self.user.pack()\n\n"
+        "        tk.Label(root, text='Password', bg='#1e1e2f', fg='white').pack()\n"
+        "        self.pw = tk.Entry(root, show='*')\n"
+        "        self.pw.pack()\n\n"
+        "        tk.Button(root, text='Login', bg='green', fg='white',\n"
+        "                  command=self.login, width=15).pack(pady=5)\n\n"
+        "        tk.Button(root, text='Create Account', bg='blue', fg='white',\n"
+        "                  command=self.open_register, width=15).pack(pady=5)\n\n"
+        "        tk.Button(root, text='Exit Application', bg='red', fg='white',\n"
+        "                  command=self.root.destroy, width=15).pack(pady=5)\n\n"
+
+        "    def login(self):\n"
+        "        if self.db.login_account(self.user.get(), self.pw.get()):\n"
+        "            messagebox.showinfo('Success', 'Login Successful!')\n"
+        "            self.root.destroy()\n"
+        "            open_main_app()\n"
+        "        else:\n"
+        "            messagebox.showerror('Error', 'Invalid login')\n\n"
+
+        "    def open_register(self):\n"
+        "        RegisterWindow(self.db)\n\n"
+
+        "# ================= REGISTER =================\n"
+        "class RegisterWindow:\n"
+        "    def __init__(self, db):\n"
+        "        self.db = db\n"
+        "        self.win = tk.Toplevel()\n"
+        "        self.win.title('Register Account')\n"
+        "        self.win.geometry('300x250')\n"
+        "        self.win.configure(bg='#2a2a40')\n\n"
+        "        tk.Label(self.win, text='Create Account',\n"
+        "                 bg='#2a2a40', fg='white',\n"
+        "                 font=('Arial', 14, 'bold')).pack(pady=10)\n\n"
+        "        tk.Label(self.win, text='Username', bg='#2a2a40', fg='white').pack()\n"
+        "        self.user = tk.Entry(self.win)\n"
+        "        self.user.pack()\n\n"
+        "        tk.Label(self.win, text='Password', bg='#2a2a40', fg='white').pack()\n"
+        "        self.pw = tk.Entry(self.win, show='*')\n"
+        "        self.pw.pack()\n\n"
+        "        tk.Button(self.win, text='Register', bg='green', fg='white',\n"
+        "                  command=self.register).pack(pady=10)\n\n"
+
+        "    def register(self):\n"
+        "        if self.db.register_account(self.user.get(), self.pw.get()):\n"
+        "            messagebox.showinfo('Success', 'Account Created!')\n"
+        "            self.win.destroy()\n"
+        "        else:\n"
+        "            messagebox.showerror('Error', 'Username already exists')\n\n"
+
+        "# ================= MAIN APP =================\n"
+        "class App:\n"
+        "    def __init__(self, root):\n"
+        "        self.root = root\n"
+        "        self.root.title('User System')\n"
+        "        self.root.geometry('1200x650')\n"
+        "        self.root.configure(bg='#2a2a40')\n\n"
+        "        self.db = DatabaseManager()\n"
+        "        self.selected_id = None\n\n"
+        "        self.build_ui()\n"
+        "        self.load_data()\n\n"
+
+        "    def build_ui(self):\n"
+        "        frame = tk.LabelFrame(self.root, text='User Info',\n"
+        "                              bg='#2a2a40', fg='white')\n"
+        "        frame.pack(fill='x', padx=10, pady=10)\n\n"
+        "        self.number = tk.Entry(frame)\n"
+        "        self.name = tk.Entry(frame)\n"
+        "        self.age = tk.Entry(frame)\n"
+        "        self.address = tk.Entry(frame)\n"
+        "        self.username = tk.Entry(frame)\n"
+        "        self.password = tk.Entry(frame)\n\n"
+        "        self.gender = tk.StringVar()\n\n"
+        "        tk.Label(frame, text='Number', bg='#2a2a40', fg='white').grid(row=0, column=0)\n"
+        "        self.number.grid(row=0, column=1)\n\n"
+        "        tk.Label(frame, text='Name', bg='#2a2a40', fg='white').grid(row=0, column=2)\n"
+        "        self.name.grid(row=0, column=3)\n\n"
+        "        tk.Label(frame, text='Age', bg='#2a2a40', fg='white').grid(row=1, column=0)\n"
+        "        self.age.grid(row=1, column=1)\n\n"
+        "        tk.Radiobutton(frame, text='Male', variable=self.gender,\n"
+        "                       value='Male', bg='#2a2a40', fg='white').grid(row=1, column=2)\n\n"
+        "        tk.Radiobutton(frame, text='Female', variable=self.gender,\n"
+        "                       value='Female', bg='#2a2a40', fg='white').grid(row=1, column=3)\n\n"
+        "        tk.Label(frame, text='Address', bg='#2a2a40', fg='white').grid(row=2, column=0)\n"
+        "        self.address.grid(row=2, column=1)\n\n"
+        "        tk.Label(frame, text='Username', bg='#2a2a40', fg='white').grid(row=2, column=2)\n"
+        "        self.username.grid(row=2, column=3)\n\n"
+        "        tk.Label(frame, text='Password', bg='#2a2a40', fg='white').grid(row=2, column=4)\n"
+        "        self.password.grid(row=2, column=5)\n\n"
+
+        "        btn = tk.Frame(self.root, bg='#2a2a40')\n"
+        "        btn.pack(pady=10)\n\n"
+        "        tk.Button(btn, text='Add', bg='green', fg='white',\n"
+        "                  command=self.add, width=10).pack(side='left', padx=5)\n\n"
+        "        tk.Button(btn, text='Update', bg='blue', fg='white',\n"
+        "                  command=self.update, width=10).pack(side='left', padx=5)\n\n"
+        "        tk.Button(btn, text='Delete', bg='red', fg='white',\n"
+        "                  command=self.delete, width=10).pack(side='left', padx=5)\n\n"
+        "        tk.Button(btn, text='Clear',\n"
+        "                  command=self.clear, width=10).pack(side='left', padx=5)\n\n"
+        "        tk.Button(btn, text='Exit', bg='black', fg='white',\n"
+        "                  command=self.root.destroy, width=10).pack(side='left', padx=5)\n\n"
+
+        "        self.tree = ttk.Treeview(self.root,\n"
+        "                                 columns=('ID','Number','Name','Age','Gender','Address','User','Pass'),\n"
+        "                                 show='headings')\n\n"
+        "        for c in self.tree['columns']:\n"
+        "            self.tree.heading(c, text=c)\n\n"
+        "        self.tree.pack(fill='both', expand=True)\n"
+        "        self.tree.bind('<ButtonRelease-1>', self.select)\n\n"
+
+        "# ---------- FUNCTIONS ----------\n"
+        "    def add(self):\n"
+        "        self.db.insert_user(\n"
+        "            self.number.get(),\n"
+        "            self.name.get(),\n"
+        "            self.age.get(),\n"
+        "            self.gender.get(),\n"
+        "            self.address.get(),\n"
+        "            self.username.get(),\n"
+        "            self.password.get()\n"
+        "        )\n"
+        "        self.load_data()\n"
+        "        self.clear()\n\n"
+
+        "    def load_data(self):\n"
+        "        for i in self.tree.get_children():\n"
+        "            self.tree.delete(i)\n\n"
+        "        for row in self.db.fetch_users():\n"
+        "            row = list(row)\n"
+        "            row[7] = '******'\n"
+        "            self.tree.insert('', 'end', values=row)\n\n"
+
+        "    def select(self, event):\n"
+        "        if not self.tree.selection():\n"
+        "            return\n"
+        "        item = self.tree.item(self.tree.selection()[0])\n"
+        "        data = item['values']\n\n"
+        "        self.selected_id = data[0]\n\n"
+        "        self.number.delete(0, tk.END); self.number.insert(0, data[1])\n"
+        "        self.name.delete(0, tk.END); self.name.insert(0, data[2])\n"
+        "        self.age.delete(0, tk.END); self.age.insert(0, data[3])\n"
+        "        self.gender.set(data[4])\n"
+        "        self.address.delete(0, tk.END); self.address.insert(0, data[5])\n"
+        "        self.username.delete(0, tk.END); self.username.insert(0, data[6])\n"
+        "        self.password.delete(0, tk.END)\n\n"
+
+        "    def update(self):\n"
+        "        if self.selected_id:\n"
+        "            self.db.update_user(\n"
+        "                self.selected_id,\n"
+        "                self.number.get(),\n"
+        "                self.name.get(),\n"
+        "                self.age.get(),\n"
+        "                self.gender.get(),\n"
+        "                self.address.get(),\n"
+        "                self.username.get(),\n"
+        "                self.password.get()\n"
+        "            )\n"
+        "            self.load_data()\n"
+        "            self.clear()\n\n"
+
+        "    def delete(self):\n"
+        "        if self.selected_id:\n"
+        "            self.db.delete_user(self.selected_id)\n"
+        "            self.load_data()\n"
+        "            self.clear()\n\n"
+
+        "    def clear(self):\n"
+        "        self.number.delete(0, tk.END)\n"
+        "        self.name.delete(0, tk.END)\n"
+        "        self.age.delete(0, tk.END)\n"
+        "        self.address.delete(0, tk.END)\n"
+        "        self.username.delete(0, tk.END)\n"
+        "        self.password.delete(0, tk.END)\n"
+        "        self.gender.set('')\n"
+        "        self.selected_id = None\n\n"
+
+        "# ================= RUN =================\n"
+        "def open_main_app():\n"
+        "    root = tk.Tk()\n"
+        "    App(root)\n"
+        "    root.mainloop()\n\n"
+
+        "login_root = tk.Tk()\n"
+        "LoginApp(login_root)\n"
+        "login_root.mainloop()\n"
+            
+        )
+          
+        elif name == "Activity 7":
+          
+          content = (
+        "import tkinter as tk\n"
+        "from tkinter import ttk, messagebox\n\n"
+
+        "# ================= GLOBAL SELECTED ITEM =================\n"
+        "selected_item = None\n\n"
+
+        "def select_item(event):\n"
+        "    global selected_item\n"
+        "    selected = tree.selection()\n"
+        "    if selected:\n"
+        "        selected_item = selected[0]\n"
+        "        data = tree.item(selected_item, 'values')\n\n"
+
+        "        # Populate text fields and widgets when a row is clicked\n"
+        "        clear_fields(keep_selection=True)  # Reset entry widgets first\n\n"
+        "        entry_num.insert(0, data[0])\n"
+        "        entry_name.insert(0, data[1])\n"
+        "        gender_var.set(data[2])\n"
+        "        combo_pos.set(data[3])\n\n"
+
+        "        # Stripping out commas from formatted currency so float() doesn't fail on Update\n"
+        "        entry_rate.insert(0, data[4].replace(',', ''))\n"
+        "        entry_days.insert(0, data[5])\n"
+        "        entry_sss.insert(0, data[6].replace(',', ''))\n"
+        "        entry_phil.insert(0, data[7].replace(',', ''))\n"
+        "        entry_ca.insert(0, data[8].replace(',', ''))\n\n"
+
+        "def compute_payroll():\n"
+        "    global selected_item\n\n"
+        "    try:\n"
+        "        if not entry_num.get() or not entry_name.get():\n"
+        "            messagebox.showwarning('Input Error', 'Employee Number and Name are required.')\n"
+        "            return\n\n"
+
+        "        rate = float(entry_rate.get())\n"
+        "        days = float(entry_days.get())\n"
+        "        sss = float(entry_sss.get())\n"
+        "        phil = float(entry_phil.get())\n"
+        "        ca = float(entry_ca.get())\n\n"
+
+        "        gross = rate * days\n"
+        "        total_deductions = sss + phil + ca\n"
+        "        net_pay = gross - total_deductions\n\n"
+
+        "        values = (\n"
+        "            entry_num.get(),\n"
+        "            entry_name.get(),\n"
+        "            gender_var.get(),\n"
+        "            combo_pos.get(),\n"
+        "            f'{rate:,.2f}',\n"
+        "            int(days),\n"
+        "            f'{gross:,.2f}',\n"
+        "            f'{sss:,.2f}',\n"
+        "            f'{phil:,.2f}',\n"
+        "            f'{ca:,.2f}',\n"
+        "            f'{total_deductions:,.2f}',\n"
+        "            f'{net_pay:,.2f}'\n"
+        "        )\n\n"
+
+        "        # ADD or UPDATE\n"
+        "        if selected_item:\n"
+        "            tree.item(selected_item, values=values)\n"
+        "        else:\n"
+        "            tree.insert('', tk.END, values=values)\n\n"
+
+        "        clear_fields()\n\n"
+        "    except ValueError:\n"
+        "        messagebox.showerror('Format Error', 'Please enter valid numbers.')\n\n"
+
+        "def clear_fields(keep_selection=False):\n"
+        "    global selected_item\n\n"
+        "    entry_num.delete(0, tk.END)\n"
+        "    entry_name.delete(0, tk.END)\n"
+        "    entry_rate.delete(0, tk.END)\n"
+        "    entry_days.delete(0, tk.END)\n"
+        "    entry_sss.delete(0, tk.END)\n"
+        "    entry_phil.delete(0, tk.END)\n"
+        "    entry_ca.delete(0, tk.END)\n\n"
+
+        "    combo_pos.set('Staff')\n"
+        "    gender_var.set('Male')\n\n"
+
+        "    if not keep_selection:\n"
+        "        selected_item = None\n\n"
+
+        "def delete_selected():\n"
+        "    global selected_item\n\n"
+        "    selected_rows = tree.selection()\n\n"
+        "    if not selected_rows:\n"
+        "        messagebox.showwarning('Delete Error', 'Please select a row to delete.')\n"
+        "        return\n\n"
+
+        "    confirm = messagebox.askyesno('Confirm Delete', 'Are you sure you want to delete this record?')\n"
+        "    if confirm:\n"
+        "        for row in selected_rows:\n"
+        "            tree.delete(row)\n"
+        "        clear_fields()\n\n"
+
+        "# ================= MAIN WINDOW =================\n"
+        "root = tk.Tk()\n"
+        "root.title('Advanced Payroll System with Dataset')\n"
+        "root.geometry('950x600')\n\n"
+
+        "# ================= INPUT FRAME =================\n"
+        "input_frame = tk.LabelFrame(root, text='Employee Information', padx=10, pady=10)\n"
+        "input_frame.pack(fill='x', padx=10, pady=5)\n\n"
+
+        "tk.Label(input_frame, text='Emp Num:').grid(row=0, column=0)\n"
+        "entry_num = tk.Entry(input_frame)\n"
+        "entry_num.grid(row=0, column=1)\n\n"
+
+        "tk.Label(input_frame, text='Name:').grid(row=0, column=2)\n"
+        "entry_name = tk.Entry(input_frame)\n"
+        "entry_name.grid(row=0, column=3)\n\n"
+
+        "# Gender\n"
+        "gender_var = tk.StringVar(value='Male')\n"
+        "tk.Radiobutton(input_frame, text='Male', variable=gender_var, value='Male').grid(row=1, column=1, sticky='w')\n"
+        "tk.Radiobutton(input_frame, text='Female', variable=gender_var, value='Female').grid(row=1, column=2, sticky='w')\n\n"
+
+        "# Position\n"
+        "tk.Label(input_frame, text='Position:').grid(row=1, column=3)\n"
+        "combo_pos = ttk.Combobox(input_frame, values=['Manager', 'Staff', 'Developer', 'HR'])\n"
+        "combo_pos.set('Staff')\n"
+        "combo_pos.grid(row=1, column=4)\n\n"
+
+        "# ================= CALC FRAME =================\n"
+        "calc_frame = tk.Frame(root)\n"
+        "calc_frame.pack(fill='x', padx=10)\n\n"
+
+        "tk.Label(calc_frame, text='Rate per Day:').grid(row=0, column=0)\n"
+        "entry_rate = tk.Entry(calc_frame)\n"
+        "entry_rate.grid(row=0, column=1)\n\n"
+
+        "tk.Label(calc_frame, text='Days Worked:').grid(row=1, column=0)\n"
+        "entry_days = tk.Entry(calc_frame)\n"
+        "entry_days.grid(row=1, column=1)\n\n"
+
+        "tk.Label(calc_frame, text='SSS:').grid(row=0, column=2)\n"
+        "entry_sss = tk.Entry(calc_frame)\n"
+        "entry_sss.grid(row=0, column=3)\n\n"
+
+        "tk.Label(calc_frame, text='PhilHealth:').grid(row=1, column=2)\n"
+        "entry_phil = tk.Entry(calc_frame)\n"
+        "entry_phil.grid(row=1, column=3)\n\n"
+
+        "tk.Label(calc_frame, text='Cash Advance:').grid(row=2, column=2)\n"
+        "entry_ca = tk.Entry(calc_frame)\n"
+        "entry_ca.grid(row=2, column=3)\n\n"
+
+        "# ================= BUTTONS =================\n"
+        "btn_frame = tk.Frame(root, pady=10)\n"
+        "btn_frame.pack()\n\n"
+
+        "# ADD\n"
+        "tk.Button(btn_frame, text='Add', command=compute_payroll,\n"
+        "          bg='green', fg='white').pack(side='left', padx=5)\n\n"
+
+        "# UPDATE\n"
+        "tk.Button(btn_frame, text='Update', command=compute_payroll,\n"
+        "          bg='blue', fg='white').pack(side='left', padx=5)\n\n"
+
+        "tk.Button(btn_frame, text='Clear Fields', command=clear_fields).pack(side='left', padx=5)\n\n"
+        "tk.Button(btn_frame, text='Delete Selected', command=delete_selected,\n"
+        "          bg='purple', fg='white').pack(side='left', padx=5)\n\n"
+
+        "# EXIT\n"
+        "tk.Button(btn_frame, text='Exit', command=root.destroy,\n"
+        "          bg='red', fg='white').pack(side='left', padx=5)\n\n"
+
+        "# ================= TABLE =================\n"
+        "tree_frame = tk.Frame(root)\n"
+        "tree_frame.pack(fill='both', expand=True, padx=10, pady=10)\n\n"
+
+        "columns = (\n"
+        "    'Num', 'Name', 'Gender', 'Pos', 'Rate', 'Days',\n"
+        "    'Gross', 'SSS', 'Phil', 'CA', 'Total Deduction', 'Net'\n"
+        ")\n\n"
+
+        "tree = ttk.Treeview(tree_frame, columns=columns, show='headings')\n\n"
+        "for col in columns:\n"
+        "    tree.heading(col, text=col)\n"
+        "    tree.column(col, width=90)\n\n"
+
+        "tree.pack(side='left', fill='both', expand=True)\n\n"
+        "scroll = ttk.Scrollbar(tree_frame, orient='vertical', command=tree.yview)\n"
+        "scroll.pack(side='right', fill='y')\n\n"
+        "tree.configure(yscrollcommand=scroll.set)\n\n"
+
+        "# bind selection\n"
+        "tree.bind('<ButtonRelease-1>', select_item)\n"
+        "root.mainloop()\n"
+            
+        )
+          
+        elif name == "Activity 8":
+          
+          content = (
+        "import tkinter as tk\n"
+        "from tkinter import ttk, messagebox\n\n"
+
+        "# ---------- GLOBAL ----------\n"
+        "selected_item = None\n\n"
+
+        "# ---------- FUNCTIONS ----------\n"
+        "def on_row_select(event):\n"
+        "    global selected_item\n"
+        "    selected = tree.selection()\n"
+        "    if not selected:\n"
+        "        return\n\n"
+        "    selected_item = selected[0]\n"
+        "    values = tree.item(selected_item, 'values')\n\n"
+        "    entry_id.delete(0, tk.END)\n"
+        "    entry_id.insert(0, values[0])\n\n"
+        "    entry_name.delete(0, tk.END)\n"
+        "    entry_name.insert(0, values[1])\n\n"
+        "    combo_course.set(values[2])\n\n"
+        "    entry_subject.delete(0, tk.END)\n"
+        "    entry_subject.insert(0, values[3])\n\n"
+        "    entry_prelim.delete(0, tk.END)\n"
+        "    entry_prelim.insert(0, values[4])\n\n"
+        "    entry_midterm.delete(0, tk.END)\n"
+        "    entry_midterm.insert(0, values[5])\n\n"
+        "    entry_final.delete(0, tk.END)\n"
+        "    entry_final.insert(0, values[6])\n\n"
+
+        "# ---------- COMPUTE (ADD NEW ONLY) ----------\n"
+        "def compute_grade():\n"
+        "    try:\n"
+        "        stud_id = entry_id.get()\n"
+        "        name = entry_name.get()\n"
+        "        course = combo_course.get()\n"
+        "        subject = entry_subject.get()\n\n"
+        "        prelim = float(entry_prelim.get())\n"
+        "        midterm = float(entry_midterm.get())\n"
+        "        final = float(entry_final.get())\n\n"
+        "        if not (0 <= prelim <= 100 and 0 <= midterm <= 100 and 0 <= final <= 100):\n"
+        "            messagebox.showerror('Error', 'Grades must be between 0 and 100')\n"
+        "            return\n\n"
+        "        # ---------- FORMULA ----------\n"
+        "        average = round(((prelim * 0.20) + (midterm * 0.30) + (final * 0.50)), 2)\n\n"
+        "        if average >= 97:\n"
+        "            numerical = '1.00'; remark = 'Excellent'\n"
+        "        elif average >= 94:\n"
+        "            numerical = '1.25'; remark = 'Very Good'\n"
+        "        elif average >= 91:\n"
+        "            numerical = '1.50'; remark = 'Very Good'\n"
+        "        elif average >= 88:\n"
+        "            numerical = '1.75'; remark = 'Good'\n"
+        "        elif average >= 85:\n"
+        "            numerical = '2.00'; remark = 'Above Average'\n"
+        "        elif average >= 82:\n"
+        "            numerical = '2.25'; remark = 'Above Average'\n"
+        "        elif average >= 79:\n"
+        "            numerical = '2.50'; remark = 'Average'\n"
+        "        elif average >= 76:\n"
+        "            numerical = '2.75'; remark = 'Average'\n"
+        "        elif average >= 75:\n"
+        "            numerical = '3.00'; remark = 'Passing'\n"
+        "        elif average >= 72:\n"
+        "            numerical = '3.25'; remark = 'Conditional'\n"
+        "        elif average >= 69:\n"
+        "            numerical = '3.50'; remark = 'Conditional'\n"
+        "        elif average >= 66:\n"
+        "            numerical = '3.75'; remark = 'Failed'\n"
+        "        elif average >= 65:\n"
+        "            numerical = '4.00'; remark = 'Failed'\n"
+        "        else:\n"
+        "            numerical = '5.00'; remark = 'Failed'\n\n"
+        "        tree.insert('', 'end', values=(\n"
+        "            stud_id, name, course, subject,\n"
+        "            prelim, midterm, final,\n"
+        "            f'{average:.2f}', numerical, remark\n"
+        "        ))\n\n"
+        "        avg_result.config(text=f'{average:.2f}')\n"
+        "        num_result.config(text=numerical)\n"
+        "        remark_result.config(text=remark)\n\n"
+        "    except ValueError:\n"
+        "        messagebox.showerror('Error', 'Please enter valid numbers')\n\n"
+
+        "# ---------- UPDATE FUNCTION ----------\n"
+        "def update_record():\n"
+        "    global selected_item\n"
+        "    if not selected_item:\n"
+        "        messagebox.showwarning('Warning', 'Please select a record to update.')\n"
+        "        return\n\n"
+        "    try:\n"
+        "        stud_id = entry_id.get()\n"
+        "        name = entry_name.get()\n"
+        "        course = combo_course.get()\n"
+        "        subject = entry_subject.get()\n\n"
+        "        prelim = float(entry_prelim.get())\n"
+        "        midterm = float(entry_midterm.get())\n"
+        "        final = float(entry_final.get())\n\n"
+        "        if not (0 <= prelim <= 100 and 0 <= midterm <= 100 and 0 <= final <= 100):\n"
+        "            messagebox.showerror('Error', 'Grades must be between 0 and 100')\n"
+        "            return\n\n"
+        "        # ---------- FORMULA ----------\n"
+        "        average = round(((prelim * 0.20) + (midterm * 0.30) + (final * 0.50)), 2)\n\n"
+        "        if average >= 97:\n"
+        "            numerical = '1.00'; remark = 'Excellent'\n"
+        "        elif average >= 94:\n"
+        "            numerical = '1.25'; remark = 'Very Good'\n"
+        "        elif average >= 91:\n"
+        "            numerical = '1.50'; remark = 'Very Good'\n"
+        "        elif average >= 88:\n"
+        "            numerical = '1.75'; remark = 'Good'\n"
+        "        elif average >= 85:\n"
+        "            numerical = '2.00'; remark = 'Above Average'\n"
+        "        elif average >= 82:\n"
+        "            numerical = '2.25'; remark = 'Above Average'\n"
+        "        elif average >= 79:\n"
+        "            numerical = '2.50'; remark = 'Average'\n"
+        "        elif average >= 76:\n"
+        "            numerical = '2.75'; remark = 'Average'\n"
+        "        elif average >= 75:\n"
+        "            numerical = '3.00'; remark = 'Passing'\n"
+        "        elif average >= 72:\n"
+        "            numerical = '3.25'; remark = 'Conditional'\n"
+        "        elif average >= 69:\n"
+        "            numerical = '3.50'; remark = 'Conditional'\n"
+        "        elif average >= 66:\n"
+        "            numerical = '3.75'; remark = 'Failed'\n"
+        "        elif average >= 65:\n"
+        "            numerical = '4.00'; remark = 'Failed'\n"
+        "        else:\n"
+        "            numerical = '5.00'; remark = 'Failed'\n\n"
+        "        tree.item(selected_item, values=(\n"
+        "            stud_id, name, course, subject,\n"
+        "            prelim, midterm, final,\n"
+        "            f'{average:.2f}', numerical, remark\n"
+        "        ))\n\n"
+        "        avg_result.config(text=f'{average:.2f}')\n"
+        "        num_result.config(text=numerical)\n"
+        "        remark_result.config(text=remark)\n\n"
+        "        messagebox.showinfo('Success', 'Record updated successfully!')\n\n"
+        "        selected_item = None\n"
+        "        tree.selection_remove(tree.selection())\n\n"
+        "    except ValueError:\n"
+        "        messagebox.showerror('Error', 'Please enter valid numbers')\n\n"
+
+        "# ---------- CLEAR ----------\n"
+        "def clear_fields():\n"
+        "    global selected_item\n"
+        "    entry_id.delete(0, tk.END)\n"
+        "    entry_name.delete(0, tk.END)\n"
+        "    entry_subject.delete(0, tk.END)\n"
+        "    entry_prelim.delete(0, tk.END)\n"
+        "    entry_midterm.delete(0, tk.END)\n"
+        "    entry_final.delete(0, tk.END)\n"
+        "    combo_course.set('')\n"
+        "    avg_result.config(text='')\n"
+        "    num_result.config(text='')\n"
+        "    remark_result.config(text='')\n"
+        "    selected_item = None\n"
+        "    tree.selection_remove(tree.selection())\n\n"
+
+        "# ---------- DELETE ----------\n"
+        "def delete_record():\n"
+        "    selected = tree.selection()\n"
+        "    if not selected:\n"
+        "        messagebox.showwarning('Warning', 'Please select a record to delete.')\n"
+        "        return\n\n"
+        "    confirm = messagebox.askyesno('Delete Record', 'Are you sure?')\n"
+        "    if confirm:\n"
+        "        tree.delete(selected[0])\n\n"
+
+        "# ---------- ADDED EXIT WITH CONFIRMATION ----------\n"
+        "def exit_application():\n"
+        "    confirm = messagebox.askyesno('Exit Confirmation', 'Are you sure you want to exit?')\n"
+        "    if confirm:\n"
+        "        root.destroy()\n\n"
+
+        "# ================= WINDOW =================\n"
+        "root = tk.Tk()\n"
+        "root.title('Student Grading System')\n"
+        "root.geometry('900x650')\n"
+        "root.configure(bg='#DDEBF7')\n\n"
+        "# This binds the upper-right \'X\' close window button to use our exit confirmation popup too\n"
+        "root.protocol('WM_DELETE_WINDOW', exit_application)\n\n"
+        "title = tk.Label(root, text='STUDENT GRADING SYSTEM',\n"
+        "                 font=('Arial', 18, 'bold'),\n"
+        "                 bg='#DDEBF7',\n"
+        "                 fg='#1a3d7c')\n"
+        "title.pack(pady=10)\n\n"
+
+        "# ---------- INPUT ----------\n"
+        "frame_info = tk.LabelFrame(root, text='Student Information', bg='#E6F2FF')\n"
+        "frame_info.pack(fill='x', padx=20, pady=5)\n\n"
+        "tk.Label(frame_info, text='Student ID:', bg='#E6F2FF').grid(row=0, column=0)\n"
+        "entry_id = ttk.Entry(frame_info)\n"
+        "entry_id.grid(row=0, column=1)\n\n"
+        "tk.Label(frame_info, text='Name:', bg='#E6F2FF').grid(row=1, column=0)\n"
+        "entry_name = ttk.Entry(frame_info)\n"
+        "entry_name.grid(row=1, column=1)\n\n"
+        "tk.Label(frame_info, text='Course:', bg='#E6F2FF').grid(row=2, column=0)\n"
+        "combo_course = ttk.Combobox(\n"
+        "    frame_info,\n"
+        "    values=['BSIT','BSCS','BSBA','BSED','BSCE','BSME','BSEE','BSCpE'],\n"
+        "    state='readonly'\n"
+        ")\n"
+        "combo_course.grid(row=2, column=1)\n\n"
+        "tk.Label(frame_info, text='Subject:', bg='#E6F2FF').grid(row=3, column=0)\n"
+        "entry_subject = ttk.Entry(frame_info)\n"
+        "entry_subject.grid(row=3, column=1)\n\n"
+
+        "# ---------- GRADES ----------\n"
+        "frame_grades = tk.LabelFrame(root, text='Grades Input', bg='#E6F2FF')\n"
+        "frame_grades.pack(fill='x', padx=20, pady=10)\n\n"
+        "tk.Label(frame_grades, text='Prelim:', bg='#E6F2FF').grid(row=0, column=0)\n"
+        "tk.Label(frame_grades, text='Midterm:', bg='#E6F2FF').grid(row=0, column=2)\n"
+        "tk.Label(frame_grades, text='Final:', bg='#E6F2FF').grid(row=0, column=4)\n\n"
+        "entry_prelim = ttk.Entry(frame_grades, width=10)\n"
+        "entry_midterm = ttk.Entry(frame_grades, width=10)\n"
+        "entry_final = ttk.Entry(frame_grades, width=10)\n\n"
+        "entry_prelim.grid(row=0, column=1)\n"
+        "entry_midterm.grid(row=0, column=3)\n"
+        "entry_final.grid(row=0, column=5)\n\n"
+
+        "# ---------- BUTTONS ----------\n"
+        "btn_frame = tk.Frame(root, bg='#DDEBF7')\n"
+        "btn_frame.pack(pady=10)\n\n"
+        "tk.Button(btn_frame, text='Compute', bg='#2c7be5', fg='white',\n"
+        "          command=compute_grade).grid(row=0, column=0, padx=5)\n\n"
+        "tk.Button(btn_frame, text='Update', bg='#28a745', fg='white',\n"
+        "          command=update_record).grid(row=0, column=1, padx=5)\n\n"
+        "tk.Button(btn_frame, text='Clear', bg='#dc3545', fg='white',\n"
+        "          command=clear_fields).grid(row=0, column=2, padx=5)\n\n"
+        "tk.Button(btn_frame, text='Delete', bg='#ff8800', fg='white',\n"
+        "          command=delete_record).grid(row=0, column=3, padx=5)\n\n"
+        "# ADDED EXIT BUTTON HERE\n"
+        "tk.Button(btn_frame, text='Exit', bg='#6c757d', fg='white',\n"
+        "          command=exit_application).grid(row=0, column=4, padx=5)\n\n"
+
+        "# ---------- RESULT ----------\n"
+        "frame_result = tk.LabelFrame(root, text='Result', bg='#E6F2FF')\n"
+        "frame_result.pack(fill='x', padx=20, pady=10)\n\n"
+        "avg_result = tk.Label(frame_result, bg='#E6F2FF')\n"
+        "num_result = tk.Label(frame_result, bg='#E6F2FF')\n"
+        "remark_result = tk.Label(frame_result, bg='#E6F2FF')\n\n"
+        "tk.Label(frame_result, text='Average:', bg='#E6F2FF').grid(row=0, column=0)\n"
+        "tk.Label(frame_result, text='Numerical:', bg='#E6F2FF').grid(row=1, column=0)\n"
+        "tk.Label(frame_result, text='Remark:', bg='#E6F2FF').grid(row=2, column=0)\n\n"
+        "avg_result.grid(row=0, column=1)\n"
+        "num_result.grid(row=1, column=1)\n"
+        "remark_result.grid(row=2, column=1)\n\n"
+
+        "# ---------- TABLE ----------\n"
+        "frame_table = tk.LabelFrame(root, text='Records', bg='#E6F2FF')\n"
+        "frame_table.pack(fill='both', expand=True, padx=20, pady=10)\n\n"
+        "columns = ('ID','Name','Course','Subject','Prelim','Midterm','Final','Average','Num','Remark')\n\n"
+        "tree = ttk.Treeview(frame_table, columns=columns, show='headings')\n\n"
+        "for col in columns:\n"
+        "    tree.heading(col, text=col)\n"
+        "    tree.column(col, width=90)\n\n"
+        "tree.pack(fill='both', expand=True)\n"
+        "tree.bind('<<TreeviewSelect>>', on_row_select)\n\n"
+        "root.mainloop()\n"
+    )
+       
         else:
-            tree.insert("", tk.END, values=values)
+            content = f"# Loaded {name}\n# Your original logic goes here..."
 
-    except ValueError:
-        messagebox.showerror("Format Error", "Please enter valid numbers.")
+        self.editor.insert(tk.END, content)
 
-def clear_fields():
-    global selected_item
+    # ================= RUN CODE =================
+    def run_code(self):
 
-    entry_num.delete(0, tk.END)
-    entry_name.delete(0, tk.END)
-    entry_rate.delete(0, tk.END)
-    entry_days.delete(0, tk.END)
-    entry_sss.delete(0, tk.END)
-    entry_phil.delete(0, tk.END)
-    entry_ca.delete(0, tk.END)
+        code = self.editor.get("1.0", tk.END)
 
-    combo_pos.set("Staff")
-    gender_var.set("Male")
+        buff = io.StringIO()
 
-    selected_item = None
+        def gui_input(prompt):
+            return simpledialog.askstring(
+                "Input Required",
+                prompt
+            )
 
-def delete_selected():
-    global selected_item
+        sys.stdout = buff
+        sys.stderr = buff
 
-    selected_item = tree.selection()
+        try:
+            exec(
+                code,
+                {
+                    "__builtins__": __builtins__,
+                    "input": gui_input
+                }
+            )
 
-    if not selected_item:
-        messagebox.showwarning("Delete Error", "Please select a row to delete.")
-        return
+        except Exception as e:
+            print(f"ERROR: {e}")
 
-    confirm = messagebox.askyesno("Confirm Delete", "Are you sure you want to delete this record?")
-    if confirm:
-        tree.delete(selected_item)
-        selected_item = None
+        finally:
+            sys.stdout = sys.__stdout__
+            sys.stderr = sys.__stderr__
 
-root = tk.Tk()
-root.title("Advanced Payroll System with Dataset")
-root.geometry("950x600")
+        self.terminal.config(state="normal")
 
-input_frame = tk.LabelFrame(root, text="Employee Information", padx=10, pady=10)
-input_frame.pack(fill="x", padx=10, pady=5)
+        self.terminal.delete("1.0", tk.END)
 
-tk.Label(input_frame, text="Emp Num:").grid(row=0, column=0)
-entry_num = tk.Entry(input_frame)
-entry_num.grid(row=0, column=1)
+        self.terminal.insert(
+            tk.END,
+            buff.getvalue() if buff.getvalue()
+            else ">>> Execution Finished."
+        )
 
-tk.Label(input_frame, text="Name:").grid(row=0, column=2)
-entry_name = tk.Entry(input_frame)
-entry_name.grid(row=0, column=3)
+        self.terminal.config(state="disabled")
 
-gender_var = tk.StringVar(value="Male")
-tk.Radiobutton(input_frame, text="Male", variable=gender_var, value="Male").grid(row=1, column=1, sticky="w")
-tk.Radiobutton(input_frame, text="Female", variable=gender_var, value="Female").grid(row=1, column=2, sticky="w")
 
-tk.Label(input_frame, text="Position:").grid(row=1, column=3)
-combo_pos = ttk.Combobox(input_frame, values=["Manager", "Staff", "Developer", "HR"])
-combo_pos.set("Staff")
-combo_pos.grid(row=1, column=4)
+# ================= RUN APP =================
+if __name__ == "__main__":
 
-calc_frame = tk.Frame(root)
-calc_frame.pack(fill="x", padx=10)
+    root = tk.Tk()
 
-tk.Label(calc_frame, text="Rate per Day:").grid(row=0, column=0)
-entry_rate = tk.Entry(calc_frame)
-entry_rate.grid(row=0, column=1)
+    ModernStudio(root)
 
-tk.Label(calc_frame, text="Days Worked:").grid(row=1, column=0)
-entry_days = tk.Entry(calc_frame)
-entry_days.grid(row=1, column=1)
-
-tk.Label(calc_frame, text="SSS:").grid(row=0, column=2)
-entry_sss = tk.Entry(calc_frame)
-entry_sss.grid(row=0, column=3)
-
-tk.Label(calc_frame, text="PhilHealth:").grid(row=1, column=2)
-entry_phil = tk.Entry(calc_frame)
-entry_phil.grid(row=1, column=3)
-
-tk.Label(calc_frame, text="Cash Advance:").grid(row=2, column=2)
-entry_ca = tk.Entry(calc_frame)
-entry_ca.grid(row=2, column=3)
-
-btn_frame = tk.Frame(root, pady=10)
-btn_frame.pack()
-
-tk.Button(btn_frame, text="Add", command=compute_payroll,
-          bg="green", fg="white").pack(side="left", padx=5)
-
-tk.Button(btn_frame, text="Update", command=compute_payroll,
-          bg="blue", fg="white").pack(side="left", padx=5)
-
-tk.Button(btn_frame, text="Clear Fields", command=clear_fields).pack(side="left", padx=5)
-
-tk.Button(btn_frame, text="Delete Selected", command=delete_selected,
-          bg="purple", fg="white").pack(side="left", padx=5)
-
-tk.Button(btn_frame, text="Exit", command=root.quit,
-          bg="red", fg="white").pack(side="left", padx=5)
-
-tree_frame = tk.Frame(root)
-tree_frame.pack(fill="both", expand=True, padx=10, pady=10)
-
-columns = (
-    "Num", "Name", "Gender", "Pos", "Rate", "Days",
-    "Gross", "SSS", "Phil", "CA", "Total Deduction", "Net"
-)
-
-tree = ttk.Treeview(tree_frame, columns=columns, show="headings")
-
-for col in columns:
-    tree.heading(col, text=col)
-    tree.column(col, width=90)
-
-tree.pack(side="left", fill="both", expand=True)
-
-scroll = ttk.Scrollbar(tree_frame, orient="vertical", command=tree.yview)
-scroll.pack(side="right", fill="y")
-
-tree.configure(yscrollcommand=scroll.set)
-
-tree.bind("<ButtonRelease-1>", select_item)
-
-root.mainloop()
-'''
-
-    text_editor.delete("1.0", tk.END)
-    text_editor.insert(tk.END, code)
-
-    statusbar.config(text="Loaded Activity 7")
-
-def load_activity_8():
-    code = '''import tkinter as tk
-from tkinter import ttk, messagebox
-
-selected_item = None
-
-def on_row_select(event):
-    global selected_item
-    selected = tree.selection()
-    if not selected:
-        return
-
-    selected_item = selected[0]
-    values = tree.item(selected_item, "values")
-
-    entry_id.delete(0, tk.END)
-    entry_id.insert(0, values[0])
-
-    entry_name.delete(0, tk.END)
-    entry_name.insert(0, values[1])
-
-    combo_course.set(values[2])
-
-    entry_subject.delete(0, tk.END)
-    entry_subject.insert(0, values[3])
-
-    entry_prelim.delete(0, tk.END)
-    entry_prelim.insert(0, values[4])
-
-    entry_midterm.delete(0, tk.END)
-    entry_midterm.insert(0, values[5])
-
-    entry_final.delete(0, tk.END)
-    entry_final.insert(0, values[6])
-
-def compute_grade():
-    try:
-        stud_id = entry_id.get()
-        name = entry_name.get()
-        course = combo_course.get()
-        subject = entry_subject.get()
-
-        prelim = float(entry_prelim.get())
-        midterm = float(entry_midterm.get())
-        final = float(entry_final.get())
-
-        if not (0 <= prelim <= 100 and 0 <= midterm <= 100 and 0 <= final <= 100):
-            messagebox.showerror("Error", "Grades must be between 0 and 100")
-            return
-
-        average = round(((prelim * 0.20) + (midterm * 0.30) + (final * 0.50)), 2)
-
-        if average >= 97:
-            numerical = "1.00"; remark = "Excellent"
-        elif average >= 94:
-            numerical = "1.25"; remark = "Very Good"
-        elif average >= 91:
-            numerical = "1.50"; remark = "Very Good"
-        elif average >= 88:
-            numerical = "1.75"; remark = "Good"
-        elif average >= 85:
-            numerical = "2.00"; remark = "Above Average"
-        elif average >= 82:
-            numerical = "2.25"; remark = "Above Average"
-        elif average >= 79:
-            numerical = "2.50"; remark = "Average"
-        elif average >= 76:
-            numerical = "2.75"; remark = "Average"
-        elif average >= 75:
-            numerical = "3.00"; remark = "Passing"
-        elif average >= 72:
-            numerical = "3.25"; remark = "Conditional"
-        elif average >= 69:
-            numerical = "3.50"; remark = "Conditional"
-        elif average >= 66:
-            numerical = "3.75"; remark = "Failed"
-        elif average >= 65:
-            numerical = "4.00"; remark = "Failed"
-        else:
-            numerical = "5.00"; remark = "Failed"
-
-        tree.insert("", "end", values=(
-            stud_id, name, course, subject,
-            prelim, midterm, final,
-            f"{average:.2f}", numerical, remark
-        ))
-
-        avg_result.config(text=f"{average:.2f}")
-        num_result.config(text=numerical)
-        remark_result.config(text=remark)
-
-    except ValueError:
-        messagebox.showerror("Error", "Please enter valid numbers")
-
-def update_record():
-    global selected_item
-    if not selected_item:
-        messagebox.showwarning("Warning", "Please select a record to update.")
-        return
-
-    try:
-        stud_id = entry_id.get()
-        name = entry_name.get()
-        course = combo_course.get()
-        subject = entry_subject.get()
-
-        prelim = float(entry_prelim.get())
-        midterm = float(entry_midterm.get())
-        final = float(entry_final.get())
-
-        if not (0 <= prelim <= 100 and 0 <= midterm <= 100 and 0 <= final <= 100):
-            messagebox.showerror("Error", "Grades must be between 0 and 100")
-            return
-
-        average = round(((prelim * 0.20) + (midterm * 0.30) + (final * 0.50)), 2)
-
-        if average >= 97:
-            numerical = "1.00"; remark = "Excellent"
-        elif average >= 94:
-            numerical = "1.25"; remark = "Very Good"
-        elif average >= 91:
-            numerical = "1.50"; remark = "Very Good"
-        elif average >= 88:
-            numerical = "1.75"; remark = "Good"
-        elif average >= 85:
-            numerical = "2.00"; remark = "Above Average"
-        elif average >= 82:
-            numerical = "2.25"; remark = "Above Average"
-        elif average >= 79:
-            numerical = "2.50"; remark = "Average"
-        elif average >= 76:
-            numerical = "2.75"; remark = "Average"
-        elif average >= 75:
-            numerical = "3.00"; remark = "Passing"
-        elif average >= 72:
-            numerical = "3.25"; remark = "Conditional"
-        elif average >= 69:
-            numerical = "3.50"; remark = "Conditional"
-        elif average >= 66:
-            numerical = "3.75"; remark = "Failed"
-        elif average >= 65:
-            numerical = "4.00"; remark = "Failed"
-        else:
-            numerical = "5.00"; remark = "Failed"
-
-        tree.item(selected_item, values=(
-            stud_id, name, course, subject,
-            prelim, midterm, final,
-            f"{average:.2f}", numerical, remark
-        ))
-
-        messagebox.showinfo("Success", "Record updated successfully!")
-
-        selected_item = None
-        tree.selection_remove(tree.selection())
-
-    except ValueError:
-        messagebox.showerror("Error", "Please enter valid numbers")
-
-def clear_fields():
-    global selected_item
-    entry_id.delete(0, tk.END)
-    entry_name.delete(0, tk.END)
-    entry_subject.delete(0, tk.END)
-    entry_prelim.delete(0, tk.END)
-    entry_midterm.delete(0, tk.END)
-    entry_final.delete(0, tk.END)
-    combo_course.set("")
-    selected_item = None
-    tree.selection_remove(tree.selection())
-
-def delete_record():
-    selected = tree.selection()
-    if not selected:
-        messagebox.showwarning("Warning", "Please select a record to delete.")
-        return
-
-    confirm = messagebox.askyesno("Delete Record", "Are you sure?")
-    if confirm:
-        tree.delete(selected[0])
-
-root = tk.Tk()
-root.title("Student Grading System")
-root.geometry("900x650")
-root.configure(bg="#DDEBF7")
-
-title = tk.Label(root, text="STUDENT GRADING SYSTEM",
-                 font=("Arial", 18, "bold"),
-                 bg="#DDEBF7",
-                 fg="#1a3d7c")
-title.pack(pady=10)
-
-frame_info = tk.LabelFrame(root, text="Student Information", bg="#E6F2FF")
-frame_info.pack(fill="x", padx=20, pady=5)
-
-tk.Label(frame_info, text="Student ID:", bg="#E6F2FF").grid(row=0, column=0)
-entry_id = ttk.Entry(frame_info)
-entry_id.grid(row=0, column=1)
-
-tk.Label(frame_info, text="Name:", bg="#E6F2FF").grid(row=1, column=0)
-entry_name = ttk.Entry(frame_info)
-entry_name.grid(row=1, column=1)
-
-tk.Label(frame_info, text="Course:", bg="#E6F2FF").grid(row=2, column=0)
-combo_course = ttk.Combobox(frame_info, values=["BSIT","BSCS","BSBA","BSED","BSCE","BSME","BSEE","BSCpE"], state="readonly")
-combo_course.grid(row=2, column=1)
-
-tk.Label(frame_info, text="Subject:", bg="#E6F2FF").grid(row=3, column=0)
-entry_subject = ttk.Entry(frame_info)
-entry_subject.grid(row=3, column=1)
-
-frame_grades = tk.LabelFrame(root, text="Grades Input", bg="#E6F2FF")
-frame_grades.pack(fill="x", padx=20, pady=10)
-
-tk.Label(frame_grades, text="Prelim:", bg="#E6F2FF").grid(row=0, column=0)
-tk.Label(frame_grades, text="Midterm:", bg="#E6F2FF").grid(row=0, column=2)
-tk.Label(frame_grades, text="Final:", bg="#E6F2FF").grid(row=0, column=4)
-
-entry_prelim = ttk.Entry(frame_grades, width=10)
-entry_midterm = ttk.Entry(frame_grades, width=10)
-entry_final = ttk.Entry(frame_grades, width=10)
-
-entry_prelim.grid(row=0, column=1)
-entry_midterm.grid(row=0, column=3)
-entry_final.grid(row=0, column=5)
-
-btn_frame = tk.Frame(root, bg="#DDEBF7")
-btn_frame.pack(pady=10)
-
-tk.Button(btn_frame, text="Compute", bg="#2c7be5", fg="white",
-          command=compute_grade).grid(row=0, column=0, padx=5)
-
-tk.Button(btn_frame, text="Update", bg="#28a745", fg="white",
-          command=update_record).grid(row=0, column=1, padx=5)
-
-tk.Button(btn_frame, text="Clear", bg="#dc3545", fg="white",
-          command=clear_fields).grid(row=0, column=2, padx=5)
-
-tk.Button(btn_frame, text="Delete", bg="#ff8800", fg="white",
-          command=delete_record).grid(row=0, column=3, padx=5)
-
-frame_result = tk.LabelFrame(root, text="Result", bg="#E6F2FF")
-frame_result.pack(fill="x", padx=20, pady=10)
-
-avg_result = tk.Label(frame_result, bg="#E6F2FF")
-num_result = tk.Label(frame_result, bg="#E6F2FF")
-remark_result = tk.Label(frame_result, bg="#E6F2FF")
-
-tk.Label(frame_result, text="Average:", bg="#E6F2FF").grid(row=0, column=0)
-tk.Label(frame_result, text="Numerical:", bg="#E6F2FF").grid(row=1, column=0)
-tk.Label(frame_result, text="Remark:", bg="#E6F2FF").grid(row=2, column=0)
-
-avg_result.grid(row=0, column=1)
-num_result.grid(row=1, column=1)
-remark_result.grid(row=2, column=1)
-
-frame_table = tk.LabelFrame(root, text="Records", bg="#E6F2FF")
-frame_table.pack(fill="both", expand=True, padx=20, pady=10)
-
-columns = ("ID","Name","Course","Subject","Prelim","Midterm","Final","Average","Num","Remark")
-
-tree = ttk.Treeview(frame_table, columns=columns, show="headings")
-
-for col in columns:
-    tree.heading(col, text=col)
-    tree.column(col, width=90)
-
-tree.pack(fill="both", expand=True)
-tree.bind("<<TreeviewSelect>>", on_row_select)
-
-root.mainloop()
-'''
-
-    text_editor.delete("1.0", tk.END)
-    text_editor.insert(tk.END, code)
-
-    statusbar.config(text="Loaded Activity 8")
-
-def personal_info():
-    info = """
-Name: Kevin Ray C Mercado
-Age: 18 years old
-ID: 2025302302
-Section: IT1R11
-
-Skills:
-- Python Programming
-- GUI Development
-- Problem Solving
-- Database Management
-- Web Development
-"""
-    messagebox.showinfo("Personal Info", info)
-    statusbar.config(text="Opened Personal Info")
-
-def about_us():
-    about = """
-Professional Python Editor (Tkinter)
-
-Features:
-- Code editing
-- File management
-- Run Python code
-- Embedded output terminal
-- Activity system
-
-Educational project.
-"""
-    messagebox.showinfo("About Us", about)
-    statusbar.config(text="Opened About Us")
-
-def run_code():
-    code = text_editor.get("1.0", tk.END)
-
-    output_buffer = io.StringIO()
-
-    old_stdout = sys.stdout
-    old_stderr = sys.stderr
-
-    sys.stdout = output_buffer
-    sys.stderr = output_buffer
-
-    try:
-        exec(code, {"__builtins__": __builtins__})
-    except Exception as e:
-        print("Error:", e)
-
-    sys.stdout = old_stdout
-    sys.stderr = old_stderr
-
-    show_output(output_buffer.getvalue())
-    statusbar.config(text="Code executed")
-
-def show_output(text):
-    output_frame.pack(side=tk.BOTTOM, fill=tk.X)
-
-    output_text.config(state=tk.NORMAL)
-    output_text.delete("1.0", tk.END)
-    output_text.insert(tk.END, text if text else "No output")
-    output_text.config(state=tk.DISABLED)
-
-def hide_output():
-    output_frame.pack_forget()
-
-editor_frame = tk.Frame(window, bg="#2b2b2b")
-editor_frame.pack(fill=tk.BOTH, expand=True)
-
-text_editor = tk.Text(
-    editor_frame,
-    wrap=tk.NONE,
-    undo=True,
-    bg="#1e1e1e",
-    fg="#dcdcdc",
-    insertbackground="white",
-    selectbackground="#555555",
-    font=("Consolas", 12)
-)
-
-scroll_y = ttk.Scrollbar(editor_frame, orient=tk.VERTICAL, command=text_editor.yview)
-scroll_x = ttk.Scrollbar(editor_frame, orient=tk.HORIZONTAL, command=text_editor.xview)
-
-text_editor.configure(yscrollcommand=scroll_y.set, xscrollcommand=scroll_x.set)
-
-text_editor.grid(row=0, column=0, sticky="nsew")
-scroll_y.grid(row=0, column=1, sticky="ns")
-scroll_x.grid(row=1, column=0, sticky="ew")
-
-editor_frame.rowconfigure(0, weight=1)
-editor_frame.columnconfigure(0, weight=1)
-
-output_frame = tk.Frame(window, bg="#111111", height=120)
-
-output_top = tk.Frame(output_frame, bg="#111111")
-output_top.pack(fill=tk.X)
-
-tk.Label(output_top, text="OUTPUT TERMINAL", bg="#111111", fg="#00ff88").pack(side=tk.LEFT)
-
-tk.Button(
-    output_top,
-    text="Close",
-    command=hide_output,
-    bg="#222",
-    fg="white"
-).pack(side=tk.RIGHT)
-
-output_text = tk.Text(
-    output_frame,
-    height=6,
-    bg="#111111",
-    fg="#00ff88",
-    insertbackground="white",
-    font=("Consolas", 10)
-)
-
-output_text.pack(fill=tk.BOTH, expand=True)
-output_text.config(state=tk.DISABLED)
-
-menubar = tk.Menu(window)
-
-filemenu = tk.Menu(menubar, tearoff=0)
-filemenu.add_command(label="New", accelerator="Ctrl+N", command=newfile)
-filemenu.add_command(label="Open", accelerator="Ctrl+O", command=openfile)
-filemenu.add_command(label="Save", accelerator="Ctrl+S", command=savefile)
-
-filemenu.add_separator()
-
-filemenu.add_command(label="Activity 1", command=load_activity_1)
-filemenu.add_command(label="Activity 2", command=load_activity_2)
-filemenu.add_command(label="Activity 3", command=load_activity_3)
-filemenu.add_command(label="Activity 4", command=load_activity_4)
-filemenu.add_command(label="Activity 5", command=load_activity_5)
-filemenu.add_command(label="Activity 6", command=load_activity_6)
-filemenu.add_command(label="Activity 7", command=load_activity_7)
-filemenu.add_command(label="Activity 8", command=load_activity_8)
-
-filemenu.add_separator()
-
-filemenu.add_command(label="Personal Info", command=personal_info)
-filemenu.add_command(label="Exit", accelerator="Ctrl+Q", command=exitprogram)
-
-menubar.add_cascade(label="File", menu=filemenu)
-
-runmenu = tk.Menu(menubar, tearoff=0)
-runmenu.add_command(label="Run Code", accelerator="F5", command=run_code)
-menubar.add_cascade(label="Run", menu=runmenu)
-
-helpmenu = tk.Menu(menubar, tearoff=0)
-helpmenu.add_command(label="About Us", command=about_us)
-menubar.add_cascade(label="Help", menu=helpmenu)
-
-window.config(menu=menubar)
-
-statusbar = ttk.Label(
-    window,
-    text="Ready",
-    relief=tk.SUNKEN,
-    anchor="w"
-)
-statusbar.pack(side=tk.BOTTOM, fill=tk.X)
-
-window.bind("<Control-n>", lambda e: newfile())
-window.bind("<Control-o>", lambda e: openfile())
-window.bind("<Control-s>", lambda e: savefile())
-window.bind("<Control-q>", lambda e: exitprogram())
-window.bind("<F5>", lambda e: run_code())
-
-window.mainloop()
+    root.mainloop()
