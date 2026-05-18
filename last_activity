@@ -246,14 +246,17 @@ class ModernStudio:
         ).pack(pady=20)
 
         activities = [
+            "Personal Info",
             "Activity 1",
             "Activity 2",
             "Activity 3",
             "Activity 4",
             "Activity 5",
             "Activity 6",
+            "MIDTERM",
             "Activity 7",
-            "Activity 8"
+            "Activity 8",
+            "FINAL"
         ]
 
         for act in activities:
@@ -340,64 +343,258 @@ class ModernStudio:
         if name == "Activity 1":
 
             content = (
-                "name = 'Kevin Ray C Mercado'\n"
-                "id_ = '2025302302'\n"
-                "age = '18'\n"
-                "section = 'IT1R11'\n\n"
+                "import tkinter as tk\n"
+"from tkinter import messagebox\n\n"
 
-                "print('------- STUDENT INFORMATION ---------')\n"
-                "print('Name    :', name)\n"
-                "print('ID      :', id_)\n"
-                "print('AGE     :', age)\n"
-                "print('SECTION :', section)\n"
+"# Function to display student information\n"
+"def show_info():\n"
+"    name = entry_name.get()\n"
+"    id_ = entry_id.get()\n"
+"    age = entry_age.get()\n"
+"    section = entry_section.get()\n\n"
+
+"    info = (\n"
+"        \"------- STUDENT INFORMATION ---------\\n\"\n"
+"        f\"Name    : {name}\\n\"\n"
+"        f\"ID      : {id_}\\n\"\n"
+"        f\"AGE     : {age}\\n\"\n"
+"        f\"SECTION : {section}\"\n"
+"    )\n\n"
+
+"    messagebox.showinfo(\"Student Information\", info)\n\n"
+
+"# Function to exit the program\n"
+"def exit_program():\n"
+"    root.destroy()\n\n"
+
+"# Create window\n"
+"root = tk.Tk()\n"
+"root.title(\"Student Information Form\")\n"
+"root.geometry(\"350x300\")\n\n"
+
+"# Labels and Entry Fields\n"
+"tk.Label(root, text=\"Enter Name\").pack(pady=5)\n"
+"entry_name = tk.Entry(root, width=30)\n"
+"entry_name.pack()\n\n"
+
+"tk.Label(root, text=\"Enter ID\").pack(pady=5)\n"
+"entry_id = tk.Entry(root, width=30)\n"
+"entry_id.pack()\n\n"
+
+"tk.Label(root, text=\"Enter Age\").pack(pady=5)\n"
+"entry_age = tk.Entry(root, width=30)\n"
+"entry_age.pack()\n\n"
+
+"tk.Label(root, text=\"Enter Section\").pack(pady=5)\n"
+"entry_section = tk.Entry(root, width=30)\n"
+"entry_section.pack()\n\n"
+
+"# Buttons\n"
+"tk.Button(root, text=\"Submit\", command=show_info, width=15).pack(pady=10)\n\n"
+"tk.Button(root, text=\"Exit\", command=exit_program, width=15, bg=\"red\", fg=\"white\").pack()\n\n"
+
+"# Run the GUI\n"
+"root.mainloop()\n"
             )
 
         elif name == "Activity 2":
 
             content = (
-                "cust_num = int(input('Enter your Number: '))\n"
-                "cust_name = input('Enter your Name: ')\n"
-                "product = input('Enter Product Name: ')\n"
-                "quantity = int(input('Enter Quantity: '))\n"
-                "price = float(input('Enter Price: '))\n\n"
+                "import tkinter as tk\n"
+"from tkinter import messagebox\n\n"
 
-                "total = quantity * price\n\n"
+"# Function to compute and display sales summary\n"
+"def show_summary():\n"
+"    try:\n"
+"        cust_num = int(entry_number.get())\n"
+"        cust_name = entry_name.get()\n"
+"        product = entry_product.get()\n"
+"        quantity = int(entry_quantity.get())\n"
+"        price = float(entry_price.get())\n\n"
 
-                "print('\\n--- SALES SUMMARY ---')\n"
-                "print('Number   :', cust_num)\n"
-                "print('Name     :', cust_name)\n"
-                "print('Product  :', product)\n"
-                "print('Quantity :', quantity)\n"
-                "print('Price    :', price)\n"
-                "print('Total    :', total)\n"
+"        total = quantity * price\n\n"
+
+"        summary = (\n"
+"            \"--- SALES SUMMARY ---\\n\"\n"
+"            f\"Number   : {cust_num}\\n\"\n"
+"            f\"Name     : {cust_name}\\n\"\n"
+"            f\"Product  : {product}\\n\"\n"
+"            f\"Quantity : {quantity}\\n\"\n"
+"            f\"Price    : {price:.2f}\\n\"\n"
+"            f\"Total    : {total:.2f}\"\n"
+"        )\n\n"
+
+"        messagebox.showinfo(\"Sales Summary\", summary)\n\n"
+
+"    except ValueError:\n"
+"        messagebox.showerror(\"Input Error\", \"Please enter valid numbers!\")\n\n"
+
+"# Function for Exit button\n"
+"def exit_program():\n"
+"    root.destroy()\n\n"
+
+"# Create Window\n"
+"root = tk.Tk()\n"
+"root.title(\"Sales Summary System\")\n"
+"root.geometry(\"400x350\")\n\n"
+
+"# Customer Number\n"
+"tk.Label(root, text=\"Enter Customer Number\").pack(pady=5)\n"
+"entry_number = tk.Entry(root, width=30)\n"
+"entry_number.pack()\n\n"
+
+"# Customer Name\n"
+"tk.Label(root, text=\"Enter Customer Name\").pack(pady=5)\n"
+"entry_name = tk.Entry(root, width=30)\n"
+"entry_name.pack()\n\n"
+
+"# Product Name\n"
+"tk.Label(root, text=\"Enter Product Name\").pack(pady=5)\n"
+"entry_product = tk.Entry(root, width=30)\n"
+"entry_product.pack()\n\n"
+
+"# Quantity\n"
+"tk.Label(root, text=\"Enter Quantity\").pack(pady=5)\n"
+"entry_quantity = tk.Entry(root, width=30)\n"
+"entry_quantity.pack()\n\n"
+
+"# Price\n"
+"tk.Label(root, text=\"Enter Price\").pack(pady=5)\n"
+"entry_price = tk.Entry(root, width=30)\n"
+"entry_price.pack()\n\n"
+
+"# Compute Button\n"
+"tk.Button(\n"
+"    root,\n"
+"    text=\"Compute Total\",\n"
+"    command=show_summary,\n"
+"    width=18,\n"
+"    bg=\"green\",\n"
+"    fg=\"white\"\n"
+").pack(pady=10)\n\n"
+
+"# Exit Button\n"
+"tk.Button(\n"
+"    root,\n"
+"    text=\"Exit\",\n"
+"    command=exit_program,\n"
+"    width=18,\n"
+"    bg=\"red\",\n"
+"    fg=\"white\"\n"
+").pack(pady=5)\n\n"
+
+"# Run GUI\n"
+"root.mainloop()\n"
             )
 
         elif name == "Activity 3":
 
             content = (
-                "student_id = input('Enter Student ID: ')\n"
-                "student_name = input('Enter Student Name: ')\n"
-                "section = input('Enter Section: ')\n"
-                "subject = input('Enter Subject: ')\n\n"
+                     "import tkinter as tk\n"
+"from tkinter import messagebox\n\n"
 
-                "prelim = float(input('Enter Prelim Grade: '))\n"
-                "midterm = float(input('Enter Midterm Grade: '))\n"
-                "finals = float(input('Enter Final Grade: '))\n\n"
+"# Function to compute grades\n"
+"def compute_grade():\n"
+"    try:\n"
+"        student_id = entry_id.get()\n"
+"        student_name = entry_name.get()\n"
+"        section = entry_section.get()\n"
+"        subject = entry_subject.get()\n\n"
 
-                "average = ((prelim * 0.2) + (midterm * 0.3) + (finals * 0.5))\n\n"
+"        prelim = float(entry_prelim.get())\n"
+"        midterm = float(entry_midterm.get())\n"
+"        finals = float(entry_finals.get())\n\n"
 
-                "if average >= 75:\n"
-                "    remarks = 'PASSED'\n"
-                "else:\n"
-                "    remarks = 'FAILED'\n\n"
+"        average = ((prelim * 0.2) +\n"
+"                   (midterm * 0.3) +\n"
+"                   (finals * 0.5))\n\n"
 
-                "print('\\n--- STUDENT GRADE SUMMARY ---')\n"
-                "print('Student ID     :', student_id)\n"
-                "print('Student Name   :', student_name)\n"
-                "print('Section        :', section)\n"
-                "print('Subject        :', subject)\n"
-                "print('Average Grade  :', round(average, 2))\n"
-                "print('Remarks        :', remarks)\n"
+"        if average >= 75:\n"
+"            remarks = \"PASSED\"\n"
+"        else:\n"
+"            remarks = \"FAILED\"\n\n"
+
+"        summary = (\n"
+"            \"--- STUDENT GRADE SUMMARY ---\\n\"\n"
+"            f\"Student ID     : {student_id}\\n\"\n"
+"            f\"Student Name   : {student_name}\\n\"\n"
+"            f\"Section        : {section}\\n\"\n"
+"            f\"Subject        : {subject}\\n\"\n"
+"            f\"Average Grade  : {average:.2f}\\n\"\n"
+"            f\"Remarks        : {remarks}\"\n"
+"        )\n\n"
+
+"        messagebox.showinfo(\"Grade Summary\", summary)\n\n"
+
+"    except ValueError:\n"
+"        messagebox.showerror(\"Input Error\", \"Please enter valid grades!\")\n\n"
+
+"# Exit function\n"
+"def exit_program():\n"
+"    root.destroy()\n\n"
+
+"# Create Window\n"
+"root = tk.Tk()\n"
+"root.title(\"Student Grade System\")\n"
+"root.geometry(\"420x500\")\n\n"
+
+"# Student ID\n"
+"tk.Label(root, text=\"Enter Student ID\").pack(pady=5)\n"
+"entry_id = tk.Entry(root, width=35)\n"
+"entry_id.pack()\n\n"
+
+"# Student Name\n"
+"tk.Label(root, text=\"Enter Student Name\").pack(pady=5)\n"
+"entry_name = tk.Entry(root, width=35)\n"
+"entry_name.pack()\n\n"
+
+"# Section\n"
+"tk.Label(root, text=\"Enter Section\").pack(pady=5)\n"
+"entry_section = tk.Entry(root, width=35)\n"
+"entry_section.pack()\n\n"
+
+"# Subject\n"
+"tk.Label(root, text=\"Enter Subject\").pack(pady=5)\n"
+"entry_subject = tk.Entry(root, width=35)\n"
+"entry_subject.pack()\n\n"
+
+"# Prelim Grade\n"
+"tk.Label(root, text=\"Enter Prelim Grade\").pack(pady=5)\n"
+"entry_prelim = tk.Entry(root, width=35)\n"
+"entry_prelim.pack()\n\n"
+
+"# Midterm Grade\n"
+"tk.Label(root, text=\"Enter Midterm Grade\").pack(pady=5)\n"
+"entry_midterm = tk.Entry(root, width=35)\n"
+"entry_midterm.pack()\n\n"
+
+"# Final Grade\n"
+"tk.Label(root, text=\"Enter Final Grade\").pack(pady=5)\n"
+"entry_finals = tk.Entry(root, width=35)\n"
+"entry_finals.pack()\n\n"
+
+"# Compute Button\n"
+"tk.Button(\n"
+"    root,\n"
+"    text=\"Compute Grade\",\n"
+"    command=compute_grade,\n"
+"    width=20,\n"
+"    bg=\"green\",\n"
+"    fg=\"white\"\n"
+").pack(pady=15)\n\n"
+
+"# Exit Button\n"
+"tk.Button(\n"
+"    root,\n"
+"    text=\"Exit\",\n"
+"    command=exit_program,\n"
+"    width=20,\n"
+"    bg=\"red\",\n"
+"    fg=\"white\"\n"
+").pack()\n\n"
+
+"# Run GUI\n"
+"root.mainloop()\n"
             )
 
         elif name == "Activity 4":
@@ -769,6 +966,20 @@ class ModernStudio:
         "login_root.mainloop()\n"
 
           )
+        
+        elif name == "MIDTERM":
+          
+          content = (
+        "================ MIDTERM PROJECT ================\n\n"
+        "Project Title: Student Management System\n\n"
+        "Features:\n"
+        "- Personal Information\n"
+        "- Payroll System\n"
+        "- Grading System\n"
+        "- Grading System GUI\n"
+        "- Payroll GUI\n\n"
+        "Submitted by: Kevin Ray C Mercado\n"
+    )         
         
         elif name == "Activity 6":
           
@@ -1523,7 +1734,47 @@ class ModernStudio:
         "tree.bind('<<TreeviewSelect>>', on_row_select)\n\n"
         "root.mainloop()\n"
     )
-       
+          
+        elif name == "FINAL":
+          
+          content = (
+        "================ FINAL PROJECT ================\n\n"
+        "Project Title: Advanced Management System\n\n"
+        "Features:\n"
+        "- Full CRUD Operations\n"
+        "- SQLite Database\n"
+        "- User Authentication\n"
+        "- Payroll / Grading System\n"
+        "- Modern Tkinter Interface\n\n"
+        "Submitted by: Kevin Ray C Mercado\n"
+    )
+          
+        elif name == "Personal Info":
+          
+          content = (
+          "# Personal Information\n\n"
+
+"name = \"Kevin Ray C Mercado\"\n"
+"age = 18\n"
+"course = \"Bachelor of Science in Information Technology (BSIT)\"\n"
+"section = \"IT1R11\"\n\n"
+
+"hobbies = [\"Coding\", \"Exploring Technology\", \"Playing Games\"]\n"
+"dream = \"To become a successful IT professional\"\n\n"
+
+"# Display Information\n"
+"print(\"===================================\")\n"
+"print(\"        PERSONAL INFORMATION       \")\n"
+"print(\"===================================\\n\")\n\n"
+
+
+"print(\"\\n===================================\")\n"
+"print(\"   Thank you for viewing my info   \")\n"
+"print(\"===================================\")\n"
+          
+      )
+      
+                                  
         else:
             content = f"# Loaded {name}\n# Your original logic goes here..."
 
